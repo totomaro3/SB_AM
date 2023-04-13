@@ -1,0 +1,38 @@
+저번 평가 + 멤버
+
+article list
+article write
+article detail
+article modify
+article delete
+
+member join
+member login
+member logout
+
+//회원가입 -> 중복체크, 비번확인
+//게시글 권한체크 -> 작성자 권한
+//중복로그인, 로그아웃 -> 중복x
+//article 클래스는 article파일에
+//member 클래스는 member파일에
+//mvc x
+//search 키워드 X
+
+//git config --global user.name "유저이름"
+//git config --global user.email "유저 이메일"
+//git init
+
+//git add .
+//git status
+//git commit -m "~"
+//git remote add origin https://github.com/totomaro3/JAM.git
+//git push origin master
+
+ctrl + shift + r : 파일 빠르게 찾기
+
+figma사용
+연정's figma 사용하기
+
+
+
+
