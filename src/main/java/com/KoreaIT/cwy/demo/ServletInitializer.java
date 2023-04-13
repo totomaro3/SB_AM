@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.KoreaIT.cwy.demo;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
