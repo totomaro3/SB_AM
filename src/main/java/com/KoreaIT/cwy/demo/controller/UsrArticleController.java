@@ -3,58 +3,52 @@ package com.KoreaIT.cwy.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.KoreaIT.cwy.demo.service.ArticleService;
 import com.KoreaIT.cwy.demo.vo.Article;
 
 @Controller
 public class UsrArticleController {
-	int lastArticleId;
-	List<Article> articles;
-
-	public UsrArticleController() {
-		lastArticleId = 0;
-		articles = new ArrayList<>();
-
-		makeTestData();
-	}
-
-	private void makeTestData() {
-		for (int i = 1; i <= 10; i++) {
-			String title = "제목 " + i;
-			String body = "내용 " + i;
-
-			writeArticle(title, body);
+	
+	@Autowired
+	private ArticleService articleService;
+	
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody
+	public String getArticle(int id) {
+		
+		Article article =  articleService.getArticle(id);
+		
+		if(article == null) {
+			return id+"번글은 존재하지 않습니다.";
 		}
-	}
-
-	public Article writeArticle(String title, String body) {
-		int id = lastArticleId + 1;
-
-		Article article = new Article(id, title, body);
-		articles.add(article);
-		lastArticleId++;
-
-		return article;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(id+"번 글 상세보기");
+		sb.append("번호 : " + article.getId());
+		sb.append("<br>작성날짜 : " + article.getRegDate());
+		sb.append("<br>수정날짜 : " + article.getUpdateDate());
+		sb.append("<br>제목 : " + article.getTitle());
+		sb.append("<br>내용 : " + article.getBody());
+		
+		return sb.toString();
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
-		Article foundArticle = null;
-		for(Article article : articles) {
-			if(article.getId() == id) {
-				foundArticle = article;
-			}
-		}
 		
-		if(foundArticle == null) {
+		Article article =  articleService.getArticle(id);
+		
+		if(article == null) {
 			return id+"번글은 존재하지 않습니다.";
 		}
 		
-		articles.remove(foundArticle);
+		articleService.doDeleteArticle(article);
 		
 		return id+"번 글이 삭제되었습니다.";
 	}
@@ -62,34 +56,48 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
-		Article foundArticle = null;
-		for(Article article : articles) {
-			if(article.getId() == id) {
-				foundArticle = article;
-			}
-		}
+		Article article = articleService.getArticle(id);
 		
-		if(foundArticle == null) {
+		if(article == null) {
 			return id+"번글은 존재하지 않습니다.";
 		}
 		
-		foundArticle.setId(id);
-		foundArticle.setTitle(title); 
-		foundArticle.setBody(body); 
+		articleService.doModifyArticle(id,title,body);
 		
-		return id+"번 글이 수정되었습니다.";
+		article = articleService.getArticle(id);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(id+"번 글이 수정되었습니다.");
+		sb.append("<br>번호 : " + article.getId());
+		sb.append("<br>작성날짜 : " + article.getRegDate());
+		sb.append("<br>수정날짜 : " + article.getUpdateDate());
+		sb.append("<br>제목 : " + article.getTitle());
+		sb.append("<br>내용 : " + article.getBody());
+		
+		return sb.toString();
 	}
 	
-	@RequestMapping("/usr/article/doAdd")
+	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public Article doAdd(String title, String body) {
-		Article article = writeArticle(title, body);
-		return article;
+	public String doWrite(String title, String body) {
+		int id = articleService.doWriteArticle(title, body);
+		
+		Article article = articleService.getArticle(id);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(id+"번 글이 작성되었습니다.");
+		sb.append("<br>번호 : " + article.getId());
+		sb.append("<br>작성날짜 : " + article.getRegDate());
+		sb.append("<br>수정날짜 : " + article.getUpdateDate());
+		sb.append("<br>제목 : " + article.getTitle());
+		sb.append("<br>내용 : " + article.getBody());
+		
+		return sb.toString();
 	}
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public List<Article> getArticles() {
-		return articles;
+		return articleService.getArticles();
 	}
 }
