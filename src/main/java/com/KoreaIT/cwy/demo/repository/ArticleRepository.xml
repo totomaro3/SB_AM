@@ -4,13 +4,14 @@
 <mapper
 	namespace="com.KoreaIT.cwy.demo.repository.ArticleRepository">
 
-	<insert id="doWriteArticle">
+	<insert id="writeArticle">
 		INSERT INTO article
 		SET regDate = NOW(),
 		updateDate=
 		NOW(),
 		title =#{title},
-		`body`= #{body}
+		`body`= #{body},
+		memberId = #{memberId}
 	</insert>
 
 	<select id="getArticles" resultType="Article">

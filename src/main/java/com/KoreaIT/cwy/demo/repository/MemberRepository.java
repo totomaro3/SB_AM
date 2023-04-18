@@ -9,11 +9,13 @@ public interface MemberRepository {
 
 	public void doJoinMember(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
 
-	public Member getMember(int id);
+	public Member getMemberById(int id);
 
 	public boolean isDupLoginId(String loginId);
 
 	public int getLastInsertId();
 
 	public boolean isDupNameAndEmail(String name, String email);
+
+	public Member getMemberByLoginId(String loginId);
 }

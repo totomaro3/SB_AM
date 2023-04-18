@@ -1,17 +1,24 @@
 package com.KoreaIT.cwy.demo.vo;
 
+import lombok.Data;
 import lombok.Getter;
 
-public class ResultData {
+@Data
+public class ResultData<DT> {
 	@Getter
 	private String resultCode;
 	@Getter
 	private String msg;
 	@Getter
-	private Object data1;
+	private DT data1;
 
-	public static ResultData from(String resultCode, String msg, Object data1) {
-		ResultData rd = new ResultData();
+	public static <DT> ResultData<DT> from(String resultCode, String msg) {
+		// TODO Auto-generated method stub
+		return from(resultCode, msg, null);
+	}
+	
+	public static <DT> ResultData<DT> from(String resultCode, String msg, DT data1) {
+		ResultData<DT> rd = new ResultData<DT>();
 		rd.resultCode = resultCode;
 		rd.msg = msg;
 		rd.data1 = data1;
@@ -19,4 +26,17 @@ public class ResultData {
 		return rd;
 	}
 
+	public boolean isSuccess() {
+		return resultCode.startsWith("S-");
+	}
+
+	public boolean isFail() {
+		return isSuccess() == false;
+	}
+
+	public static <DT> ResultData<DT> newData(ResultData<?> rd, DT data1) {
+		
+		return ResultData.from(rd.getResultCode(), rd.getMsg(), data1);
+	}
+	
 }
