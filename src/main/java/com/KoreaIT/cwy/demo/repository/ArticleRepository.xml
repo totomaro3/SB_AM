@@ -47,5 +47,11 @@
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
+	<select id="isDupLoginId" resultType="boolean"> 
+			SELECT Count(*)
+			FROM `member`
+			WHERE loginId = #{loginId}
+	</select>
 
 </mapper>
