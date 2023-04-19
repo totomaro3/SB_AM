@@ -30,7 +30,7 @@ public class ArticleService {
 
 		int id = articleRepository.getLastInsertId();
 
-		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id), id);
+		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id),"id", id);
 
 	}
 	
@@ -39,7 +39,7 @@ public class ArticleService {
 	}
 
 	public void doModifyArticle(int id, String title, String body) {
-		articleRepository.doModifyArticle(id,title,body);	
+		articleRepository.doModifyArticle(id,title,body);
 	}
 
 }

@@ -29,7 +29,7 @@ public class MemberService {
 		
 		int id =  memberRepository.getLastInsertId();
 		
-		return ResultData.from("S-1", nickname+"회원이 가입되었습니다.", id);
+		return ResultData.from("S-1", nickname+"회원이 가입되었습니다.","id", id);
 		
 	}
 

@@ -60,7 +60,7 @@ public class UsrMemberController {
 		sb.append("<br>아이디 : " + member.getLoginId());
 		sb.append("<br>이름 : " + member.getName());
 
-		return ResultData.newData(joinRd, sb.toString());
+		return ResultData.newData(joinRd,"String", sb.toString());
 	}
 	
 	@RequestMapping("/usr/member/doLogin")
