@@ -13,4 +13,6 @@ public class Article {
 	private String title;
 	private String body;
 	private int MemberId;
+	
+	private String extra__writer;
 }

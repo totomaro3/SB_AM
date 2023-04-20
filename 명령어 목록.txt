@@ -28,8 +28,11 @@ figma사용
 
 3. 클릭 이벤트
 
+홈페이지
+http://localhost:8081/
+
 리스트
-http://localhost:8081/usr/article/getArticles
+http://localhost:8081/usr/article/list
 
 디테일
 http://localhost:8081/usr/article/getArticle?id=1
@@ -44,10 +47,10 @@ http://localhost:8081/usr/article/doModify?id=1
 http://localhost:8081/usr/article/doDelete?id=1
 
 조인
-http://localhost:8081/usr/member/dojoin?...
+http://localhost:8081/usr/member/dojoin?
 
 로그인
-http://localhost:8081/usr/member/doLogin?loginId=1&loginPw=1
+http://localhost:8081/usr/member/doLogin?loginId=test1&loginPw=test1
 
 로그아웃
 http://localhost:8081/usr/member/doLogout

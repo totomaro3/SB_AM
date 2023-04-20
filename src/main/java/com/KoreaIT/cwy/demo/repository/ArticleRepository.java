@@ -21,4 +21,6 @@ public interface ArticleRepository {
 
 	public void doModifyArticle(int id, String title, String body);
 
+	public String getwriterName(int id);
+
 }

@@ -42,4 +42,8 @@ public class ArticleService {
 		articleRepository.doModifyArticle(id,title,body);
 	}
 
+	public String getwriterName(int id) {
+		return articleRepository.getwriterName(id);
+	}
+
 }

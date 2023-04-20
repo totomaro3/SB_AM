@@ -9,17 +9,21 @@
 			<th>작성날짜</th>
 			<th>제목</th>
 			<th>작성자</th>
-			<!--<th>수정</th>
-			<th>삭제</th>-->
+			<th>수정</th>
+			<th>삭제</th>
 		</tr>
 	<c:forEach var="article" items="${articles }">
 		<tr style="text-align: center;">
 			<td>${article.id }</td>
 			<td>${article.regDate.substring(0,10) }</td>
 			<td><a href="detail?id=${article.id }">${article.title }</a></td>
-			<td>${article.memberId }</td>
-			<!--<td><a href="modify?id=">수정</a></td>
-			<td><a href="doDelete?id=">삭제</a></td>-->
+			<td>${article.extra__writer }</td>
+			<td><a href="modify?id=${article.id }">
+			<c:if test="${article.memberId eq loginedMemberId}">수정</c:if>
+			</a></td>
+			<td><a onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;" href="doDelete?id=${article.id }">
+			<c:if test="${article.memberId eq loginedMemberId}">삭제</c:if>
+			</a></td>
 		</tr>
 	</c:forEach>
 
