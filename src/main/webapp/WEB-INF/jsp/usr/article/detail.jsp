@@ -29,15 +29,16 @@
 		<td>${article.body }</td>
 	</tr>
 </table>
-
-<button type="button" onclick="history.back();">뒤로가기</button>
-<c:if test="${article.memberId eq loginedMemberId}">
-	<a href="../article/modify?id=${article.id }">수정</a>
-</c:if>
-<c:if test="${article.memberId eq loginedMemberId}">
-	<a onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
-		href="../article/doDelete?id=${article.id }">삭제</a>
-</c:if>
-
+<div class="buttons">
+	<button type="button" onclick="history.back();">뒤로가기</button>
+	<c:if test="${article.memberId eq loginedMemberId}">
+		<a href="../article/modify?id=${article.id }">수정</a>
+	</c:if>
+	<c:if test="${article.memberId eq loginedMemberId}">
+		<a onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
+			href="../article/doDelete?id=${article.id }">삭제</a>
+	</c:if>
 </div>
+
+
 <%@ include file="../common/foot.jspf"%>

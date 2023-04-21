@@ -43,5 +43,11 @@
 		FROM `member`
 		WHERE loginId = #{loginId}
 	</select>
+	
+	<select id="getNicknameById" resultType="String">
+		SELECT nickname
+		FROM `member`
+		WHERE id = #{id}
+	</select>
 
 </mapper>

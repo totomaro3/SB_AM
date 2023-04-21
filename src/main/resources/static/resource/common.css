@@ -8,6 +8,7 @@
 html>body {
 	font-family: 'Cafe24Ssurround', sans;
 	font-size: 2rem;
+	padding: 2rem;
 }
 
 /* 라이브러리 */
@@ -23,4 +24,15 @@ a:hover {
 
 button:hover {
 	color: deepskyblue;
+}
+
+li {
+  padding: 1rem;
+}
+
+.logo {
+	padding: 1rem;
+}
+.buttons > * {
+	padding: 1rem;
 }

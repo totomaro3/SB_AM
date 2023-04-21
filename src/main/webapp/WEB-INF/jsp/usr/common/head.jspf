@@ -27,15 +27,32 @@
 
 	<header>
 		<div class="h-20 flex mx-auto text-3xl ">
-			<a href="/">로고</a>
+			<a class="logo" href="/">ToToWeb</a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
 				<li><a href="/">HOME</a></li>
 				<li><a href="/usr/article/list">LIST</a></li>
 				<li><a href="/usr/article/write">WRITE</a></li>
-				<li><a href="/usr/member/login">LOGIN</a></li>
+				<c:if test="${!rq.isLogined() }">
+					<li><a href="/usr/member/login">LOGIN</a></li>
+				</c:if>
+				<c:if test="${rq.isLogined() }">
+				<li><a href="/usr/member/doLogout">LOGOUT</a></li>
+				</c:if>
 			</ul>
-
 		</div>
+		<div class="h-20 flex mx-auto text-3xl ">
+			<ul class="flex">
+				<c:choose>
+					<c:when test="${loginedMemberId ne null}">
+					<li>로그인 중입니다. (${loginedMemberNickname })</li>
+					</c:when>
+					<c:otherwise>
+					<li>로그인 중이 아닙니다.</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+		<ul><li>${pageTitle }</li></ul>
 	</header>
 	<main>
