@@ -6,7 +6,9 @@
 <table>
 	<tr>
 		<th>번호</th>
-		<td>${article.id }</td>
+		<td>
+		<div class="badge badge-lg text-xl">${article.id }</div>
+		</td>
 	</tr>
 	<tr>
 		<th>작성날짜</th>
@@ -29,13 +31,13 @@
 		<td>${article.body }</td>
 	</tr>
 </table>
-<div class="buttons">
-	<button type="button" onclick="history.back();">뒤로가기</button>
+<div class="button">
+	<button class="btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
 	<c:if test="${article.memberId eq loginedMemberId}">
-		<a href="../article/modify?id=${article.id }">수정</a>
+		<a class="btn btn-active btn-ghost text-xl" href="../article/modify?id=${article.id }">수정</a>
 	</c:if>
 	<c:if test="${article.memberId eq loginedMemberId}">
-		<a onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
+		<a class="btn btn-active btn-ghost text-xl" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
 			href="../article/doDelete?id=${article.id }">삭제</a>
 	</c:if>
 </div>

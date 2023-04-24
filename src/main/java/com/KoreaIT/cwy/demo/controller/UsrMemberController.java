@@ -78,7 +78,9 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpsession, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.empty(loginId)) {
 			return Ut.jsHistoryBack("F-1", "아이디를 입력해주세요");
@@ -96,19 +98,19 @@ public class UsrMemberController {
 		if (!member.getLoginPw().equals(loginPw)) {
 			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호가 일치하지 않습니다."));
 		}
-
-		httpsession.setAttribute("loginedMemberId", member.getId());
-		httpsession.setAttribute("loginedMemberNickname", member.getNickname());
+		
+		rq.login(member);
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", member.getNickname()),"../home/main");
 	}
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout(HttpSession httpsession) {
-
-		httpsession.removeAttribute("loginedMemberId");
-
+	public String doLogout(HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		rq.logout();
+		
 		return Ut.jsReplace("S-1", Ut.f("로그아웃 되었습니다."),"../home/main");
 	}
 }

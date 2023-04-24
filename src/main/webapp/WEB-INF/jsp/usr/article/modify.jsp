@@ -25,13 +25,12 @@
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td><input value="${article.title }" type="text" name="title"
+			<td><input class="input input-bordered w-full max-w-xs" value="${article.title }" type="text" name="title"
 				placeholder="제목을 입력해주세요" /></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea name="body" placeholder="내용을 입력해주세요">
-			${article.body }</textarea></td>
+			<td><textarea class="input input-bordered w-full max-w-xs" name="body" placeholder="내용을 입력해주세요" />${article.body }</textarea></td>
 		</tr>
 	</table>
 	<button type="submit">수정</button>

@@ -35,12 +35,13 @@ http://localhost:8081/usr/member/doLogin?loginId=test1&loginPw=test1
 로그아웃
 http://localhost:8081/usr/member/doLogout
 
--- 화면구현 포트폴리오
-
-월요일 1시까지
 
 figma사용
 연정's figma 사용하기
+
+폰트 사이트 눈누
+
+daisyUI : 테일윈드 CSS
 
 기업
 다양한 언어 사용

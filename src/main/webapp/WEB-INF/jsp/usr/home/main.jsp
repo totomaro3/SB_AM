@@ -3,7 +3,6 @@
 <c:set var="pageTitle" value="HOME MAIN" />
 <%@ include file="../common/head.jspf" %>
 
-<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis aperiam qui beatae est expedita quasi
-				repellat nemo aspernatur adipisci ipsum ipsa quos ex debitis sit voluptas odit nulla eius laudantium.</div>
+<div>제작자 : ToToMaRo</div>
 
 <%@ include file="../common/foot.jspf"%>

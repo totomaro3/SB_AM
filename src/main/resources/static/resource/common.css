@@ -5,10 +5,13 @@
     font-style: normal;
 }
 
-html>body {
+* {
 	font-family: 'Cafe24Ssurround', sans;
-	font-size: 2rem;
-	padding: 2rem;
+	font-size: 1.25rem;
+}
+
+html>body {
+	padding: 1.25rem;
 }
 
 /* 라이브러리 */
@@ -33,6 +36,20 @@ li {
 .logo {
 	padding: 1rem;
 }
-.buttons > * {
-	padding: 1rem;
+.button {
+	margin: 0.5rem 0;
+}
+
+header > div > ul > li{
+	position: reletive;
+}
+
+
+header > div > ul > li > ul {
+	display: none;
+}
+
+header > div > ul > li:hover > ul {
+	display: block;
+	position: absolute;
 }

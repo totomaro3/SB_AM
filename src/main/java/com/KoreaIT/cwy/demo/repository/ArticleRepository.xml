@@ -19,6 +19,9 @@
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
+			<if test="boardId != 0">
+				AND A.BoardId = #{boardId}
+			</if>
 			ORDER BY A.id DESC
 	</select>
 

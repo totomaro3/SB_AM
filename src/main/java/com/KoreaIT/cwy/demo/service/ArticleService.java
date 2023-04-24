@@ -17,11 +17,13 @@ public class ArticleService {
 	ArticleRepository articleRepository;
 
 	public Article getArticle(int id) {
+		
 		return articleRepository.getArticle(id);
 	}
 	
-	public List<Article> getArticles() {
-		return articleRepository.getArticles();
+	public List<Article> getArticles(int boardId) {
+		
+		return articleRepository.getArticles(boardId);
 	}
 	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId) {

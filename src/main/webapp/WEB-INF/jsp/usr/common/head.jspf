@@ -11,6 +11,10 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
 
+<!-- Daisy UI -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
@@ -30,8 +34,13 @@
 			<a class="logo" href="/">ToToWeb</a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
-				<li><a href="/">HOME</a></li>
-				<li><a href="/usr/article/list">LIST</a></li>
+				<li><a href="/usr/article/list?boardId=0">LIST</a>
+					<ul>
+						<li><a href= "/usr/article/list?boardId=1">NOTICE</a></li>
+						<li><a href= "/usr/article/list?boardId=2">FREE</a></li>
+						<li><a href= "/usr/article/list?boardId=3">QNA</a></li>
+					</ul>
+				</li>
 				<li><a href="/usr/article/write">WRITE</a></li>
 				<c:if test="${!rq.isLogined() }">
 					<li><a href="/usr/member/login">LOGIN</a></li>
