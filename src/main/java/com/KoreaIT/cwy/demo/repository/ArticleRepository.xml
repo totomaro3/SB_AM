@@ -11,11 +11,24 @@
 		NOW(),
 		title =#{title},
 		`body`= #{body},
-		memberId = #{memberId}
+		memberId = #{memberId},
+		boardId = #{boardId}
 	</insert>
 
 	<select id="getArticles" resultType="Article">
 			SELECT A.*, M.nickname AS extra__writer
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			<if test="boardId != 0">
+				AND A.BoardId = #{boardId}
+			</if>
+			ORDER BY A.id DESC
+			LIMIT #{limitFrom}, #{itemsInAPage};
+	</select>
+	
+	<select id="getArticlesCount" resultType="int">
+			SELECT Count(*) AS cnt
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id

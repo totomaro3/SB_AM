@@ -30,18 +30,18 @@ button:hover {
 }
 
 li {
-  padding: 1rem;
+	padding: 0 0.5rem;
 }
 
 .logo {
-	padding: 1rem;
+	padding: 0 0.5rem;
 }
 .button {
 	margin: 0.5rem 0;
 }
 
 header > div > ul > li{
-	position: reletive;
+	position: relative;
 }
 
 
@@ -52,4 +52,5 @@ header > div > ul > li > ul {
 header > div > ul > li:hover > ul {
 	display: block;
 	position: absolute;
+	left: 0;
 }

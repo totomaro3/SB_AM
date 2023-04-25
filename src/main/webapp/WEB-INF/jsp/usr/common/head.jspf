@@ -30,15 +30,15 @@
 <body>
 
 	<header>
-		<div class="h-20 flex mx-auto text-3xl ">
+		<div class="flex mx-auto text-3xl ">
 			<a class="logo" href="/">ToToWeb</a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
-				<li><a href="/usr/article/list?boardId=0">LIST</a>
+				<li><a href="/usr/article/list?boardId=0&page=1">LIST</a>
 					<ul>
-						<li><a href= "/usr/article/list?boardId=1">NOTICE</a></li>
-						<li><a href= "/usr/article/list?boardId=2">FREE</a></li>
-						<li><a href= "/usr/article/list?boardId=3">QNA</a></li>
+						<li><a href= "/usr/article/list?boardId=1&page=1">NOTICE</a></li>
+						<li><a href= "/usr/article/list?boardId=2&page=1">FREE</a></li>
+						<li><a href= "/usr/article/list?boardId=3&page=1">QNA</a></li>
 					</ul>
 				</li>
 				<li><a href="/usr/article/write">WRITE</a></li>
@@ -50,18 +50,16 @@
 				</c:if>
 			</ul>
 		</div>
-		<div class="h-20 flex mx-auto text-3xl ">
-			<ul class="flex">
+		<div class="h-10 flex mx-auto text-3xl ">
 				<c:choose>
 					<c:when test="${loginedMemberId ne null}">
-					<li>로그인 중입니다. (${loginedMemberNickname })</li>
+					<div>로그인 중입니다. (${loginedMemberNickname })</div>
 					</c:when>
 					<c:otherwise>
-					<li>로그인 중이 아닙니다.</li>
+					<div>로그인 중이 아닙니다.</div>
 					</c:otherwise>
 				</c:choose>
-			</ul>
 		</div>
-		<ul><li>${pageTitle }</li></ul>
+		<div>${pageTitle }</div>
 	</header>
 	<main>

@@ -24,6 +24,9 @@ public class UsrMemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private Rq rq;
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
@@ -72,15 +75,13 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
-	public String login(HttpSession httpsession, String loginId, String loginPw) {
+	public String login( String loginId, String loginPw) {
 		return "usr/member/login";
 	}
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogin(String loginId, String loginPw) {
 
 		if (Ut.empty(loginId)) {
 			return Ut.jsHistoryBack("F-1", "아이디를 입력해주세요");
@@ -106,8 +107,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout(HttpServletRequest req) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogout() {
 		
 		rq.logout();
 		

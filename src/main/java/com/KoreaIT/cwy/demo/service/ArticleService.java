@@ -21,14 +21,14 @@ public class ArticleService {
 		return articleRepository.getArticle(id);
 	}
 	
-	public List<Article> getArticles(int boardId) {
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage) {
 		
-		return articleRepository.getArticles(boardId);
+		return articleRepository.getArticles(boardId, limitFrom, itemsInAPage);
 	}
 	
-	public ResultData<Integer> writeArticle(String title, String body, int memberId) {
+	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId) {
 
-		articleRepository.writeArticle(title, body, memberId);
+		articleRepository.writeArticle(title, body, memberId, boardId);
 
 		int id = articleRepository.getLastInsertId();
 
@@ -46,6 +46,10 @@ public class ArticleService {
 
 	public String getwriterName(int id) {
 		return articleRepository.getwriterName(id);
+	}
+
+	public int getArticlesCount(int boardId) {
+		return articleRepository.getArticlesCount(boardId);
 	}
 
 }

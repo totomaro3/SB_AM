@@ -11,13 +11,13 @@ public interface ArticleRepository {
 
 	public Article getArticle(int id);
 
-	public List<Article> getArticles(int boardId);
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage);
 	
-	public List<Article> getAllArticles();
+	public int getArticlesCount(int boardId);
 
 	public int getLastInsertId();
 
-	public void writeArticle(String title, String body, int memberId);
+	public void writeArticle(String title, String body, int memberId, int boardId);
 
 	public void doDeleteArticle(Article article);
 

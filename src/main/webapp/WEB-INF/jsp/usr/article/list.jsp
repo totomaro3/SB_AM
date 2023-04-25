@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="ARTICLE ${board.code} LIST" />
 <%@ include file="../common/head.jspf" %>
-		
+	
+	<div>${articlesCount } 개</div>
 	<table style="border-collapse: collapse; border-color: green" border="2px">
 		<tr>
 			<th>번호</th>
@@ -26,14 +27,38 @@
 			</a></td>
 		</tr>
 	</c:forEach>
-
-
 	</table>
-
+	<div class="btn-group">
+		<% 
+		%>
+  		<button class="btn">1</button>
+		<button class="btn btn-active">2</button>
+		<button class="btn">3</button>
+		<button class="btn">4</button>
+	</div>
+	
+	<div class="page">
+		<c:if test="${page > 1 + 3}"><a href="list?boardId=${boardId }&page=1">1</a> ... </c:if>
+		<%
+		int pageSize = 3;
+		int from = (int)request.getAttribute("page") - pageSize;
+		if (from < 1) {
+			from = 1;
+		}
+		int end = (int)request.getAttribute("page") + pageSize;
+		if (end > (int)request.getAttribute("pagesCount")) {
+			end =(int)request.getAttribute("pagesCount");
+		}
+		for (int i = from; i <= end; i++) {
+		%>
+		<a class="<%=(int)request.getAttribute("page") == i ? "red" : ""%>" href="list?boardId=${boardId }&page=<%=i%>"><%=i%></a>
+		<%
+		}
+		%>
+		<c:if test="${page < pagesCount - 3}">... <a href="list?boardId=${boardId }&page=${pagesCount }">${pagesCount }</a></c:if>
+	</div>
+	
 	<style type="text/css">
-.page {
-	background-color: gold;
-}
 .page>a {
 	color: black;
 }

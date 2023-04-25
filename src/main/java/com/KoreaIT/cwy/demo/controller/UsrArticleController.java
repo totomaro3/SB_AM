@@ -25,24 +25,35 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private Rq rq;
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model, int boardId, int page) {
 		Board board = boardService.getBoardById(boardId);
-
-		List<Article> articles = articleService.getArticles(boardId);
 		
-		if(board == null) {
+		int articlesCount = articleService.getArticlesCount(boardId);
+		
+		int itemsInAPage = 10;
+		int limitFrom = (page - 1) * itemsInAPage;
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);	
+
+		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage);
+		
+		if(board == null && boardId != 0) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("msg","존재하지 않는 게시판 입니다.");
 			return "usr/common/js";
 		}
 
 		model.addAttribute("board", board);
+		model.addAttribute("boardId", boardId);
 		model.addAttribute("articles", articles);
+		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount",pagesCount);
 
 		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
 		return "usr/article/list";
@@ -67,9 +78,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/write")
-	public String showWrite(HttpServletRequest req, Model model) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String showWrite(Model model) {
 		
 		int loginedMemberId = rq.getLoginedMemberId();
 
@@ -82,8 +91,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doWrite(String title, String body, int boardId) {
 
 		if (Ut.empty(title)) {
 			// ResultData.from("F-1", "제목을 입력해주세요");
@@ -96,7 +104,7 @@ public class UsrArticleController {
 
 		int loginedMemberId = rq.getLoginedMemberId();
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId, boardId);
 
 		int id = (int) writeArticleRd.getData1();
 
@@ -108,8 +116,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	public String showModify(HttpServletRequest req, Model model, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String showModify(Model model, int id) {
 
 		Article article = articleService.getArticle(id);
 
@@ -136,8 +143,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(HttpServletRequest req, int id, String title, String body) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doModify(int id, String title, String body) {
 		
 		Article article = articleService.getArticle(id);
 		
@@ -159,8 +165,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doDelete(int id) {
 
 		Article article = articleService.getArticle(id);
 

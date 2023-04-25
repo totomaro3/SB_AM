@@ -7,8 +7,22 @@
 <form method="post" action="doWrite">
 	<table>
 		<tr>
+			<th>게시판</th>
+			<td>
+				<select name="boardId" class="select select-bordered w-full max-w-xs">
+ 					<option value="1">공지사항</option>
+			 		<option value="2">자유</option>
+			 		<option value="3">QnA</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>작성자</th>
+			<td>${loginedMemberNickname }</td>
+		</tr>
+		<tr>
 			<th>제목</th>
-			<td><input value="${article.title }" type="text" name="title"
+			<td><input class="input input-bordered w-full max-w-xs" value="${article.title }" type="text" name="title"
 				placeholder="제목을 입력해주세요" /></td>
 		</tr>
 		<tr>
