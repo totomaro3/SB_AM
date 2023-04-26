@@ -3,15 +3,35 @@
 <c:set var="pageTitle" value="ARTICLE ${board.code} LIST" />
 <%@ include file="../common/head.jspf" %>
 	
-	<div>${articlesCount } 개</div>
-	<table style="border-collapse: collapse; border-color: green" border="2px">
+<section>
+	<div class="flex">
+		<div>
+			게시물 갯수 : 
+			<span class="badge">${articlesCount }</span>
+			개
+		</div>
+		<div class ="w-1/12"></div>
+		<div class="flex">
+			<form class= "flex" method="post" action="?boardId=${boardId }&page=1">
+				<select name="searchKeywordTypeCode" class="select select-bordered max-w-xs">
+ 					<option value="title" selected>제목</option>
+					<option value="body" ${searchKeywordTypeCode == "body" ? "selected" : ""}>내용</option>
+					<option value="title,body" ${searchKeywordTypeCode == "title,body" ? "selected" : ""}>제목+내용</option>
+				</select>
+				<input class="input input-bordered w-full max-w-xs" value="${searchKeyword }" type="text" name="searchKeyword"
+					placeholder="검색어를 입력해주세요" />
+				<button class="button btn btn-active btn-ghost text-xl" type="submit">검색</button>
+			</form>
+		</div>
+	</div>
+	
+	<table style="border-collapse: collapse; border-color: green">
 		<tr>
 			<th>번호</th>
 			<th>작성날짜</th>
 			<th>제목</th>
 			<th>작성자</th>
-			<th>수정</th>
-			<th>삭제</th>
+			<th>조회수</th>
 		</tr>
 	<c:forEach var="article" items="${articles }">
 		<tr style="text-align: center;">
@@ -19,44 +39,34 @@
 			<td>${article.regDate.substring(0,10) }</td>
 			<td><a href="detail?id=${article.id }">${article.title }</a></td>
 			<td>${article.extra__writer }</td>
-			<td><a href="modify?id=${article.id }">
-			<c:if test="${article.memberId eq loginedMemberId}">수정</c:if>
-			</a></td>
-			<td><a onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;" href="doDelete?id=${article.id }">
-			<c:if test="${article.memberId eq loginedMemberId}">삭제</c:if>
-			</a></td>
+			<td>${article.hitCount }</td>
 		</tr>
 	</c:forEach>
 	</table>
 	<div class="btn-group">
-		<% 
-		%>
-  		<button class="btn">1</button>
-		<button class="btn btn-active">2</button>
-		<button class="btn">3</button>
-		<button class="btn">4</button>
+			<c:set var="paginationLen" value="3" />
+			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}" />
+			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount}" />
+			
+			<c:set var="baseUri" value="?boardId=${boardId }" />
+			<c:set var="baseUri" value="${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode}" />
+			<c:set var="baseUri" value="${baseUri }&searchKeyword=${searchKeyword}" />
+
+			<c:if test="${startPage > 1 }">
+				<a class="btn" href="${baseUri }&page=1">1</a>
+				<button class="btn btn-disabled">...</button>
+			</c:if>
+
+			<c:forEach begin="${startPage }" end="${endPage }" var="i">
+				<a class="btn ${page == i ? 'btn-active' : '' }" href="${baseUri }&page=${i }">${i }</a>
+			</c:forEach>
+
+			<c:if test="${endPage < pagesCount }">
+				<button class="btn btn-disabled">...</button>
+				<a class="btn" href="${baseUri }&page=${pagesCount }">${pagesCount }</a>
+			</c:if>
 	</div>
-	
-	<div class="page">
-		<c:if test="${page > 1 + 3}"><a href="list?boardId=${boardId }&page=1">1</a> ... </c:if>
-		<%
-		int pageSize = 3;
-		int from = (int)request.getAttribute("page") - pageSize;
-		if (from < 1) {
-			from = 1;
-		}
-		int end = (int)request.getAttribute("page") + pageSize;
-		if (end > (int)request.getAttribute("pagesCount")) {
-			end =(int)request.getAttribute("pagesCount");
-		}
-		for (int i = from; i <= end; i++) {
-		%>
-		<a class="<%=(int)request.getAttribute("page") == i ? "red" : ""%>" href="list?boardId=${boardId }&page=<%=i%>"><%=i%></a>
-		<%
-		}
-		%>
-		<c:if test="${page < pagesCount - 3}">... <a href="list?boardId=${boardId }&page=${pagesCount }">${pagesCount }</a></c:if>
-	</div>
+</section>
 	
 	<style type="text/css">
 .page>a {

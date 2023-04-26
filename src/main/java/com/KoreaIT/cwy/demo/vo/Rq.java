@@ -39,6 +39,9 @@ public class Rq {
 
 		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
+		
+		this.req.setAttribute("rq", this);
+
 	}
 
 	public void printHistoryBackJs(String str) throws IOException {
@@ -56,6 +59,10 @@ public class Rq {
 	
 	public void logout() {
 		session.removeAttribute("loginedMemberId");
+	}
+	
+	public void initOnBeforeActionInterceptor() {
+
 	}
 
 }

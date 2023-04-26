@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.cwy.demo.service.ArticleService;
@@ -31,16 +32,21 @@ public class UsrArticleController {
 	private Rq rq;
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId, int page) {
+	public String showList(Model model, int boardId, int page,
+			@RequestParam(defaultValue = "") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword
+			) {
 		Board board = boardService.getBoardById(boardId);
 		
-		int articlesCount = articleService.getArticlesCount(boardId);
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 		
 		int itemsInAPage = 10;
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);	
-
-		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage);
+		
+		List<Article> articles;
+		
+		articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
 		
 		if(board == null && boardId != 0) {
 			model.addAttribute("historyBack", true);
@@ -54,6 +60,8 @@ public class UsrArticleController {
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("page", page);
 		model.addAttribute("pagesCount",pagesCount);
+		model.addAttribute("searchKeywordTypeCode",searchKeywordTypeCode);
+		model.addAttribute("searchKeyword",searchKeyword);
 
 		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
 		return "usr/article/list";
@@ -61,7 +69,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-
+		
+		articleService.increaseHitCount(id);
+		
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
@@ -71,7 +81,7 @@ public class UsrArticleController {
 			return "usr/common/js";
 		}
 		// ResultData.from("S-1", id+"번글을 조회합니다.","String", sb.toString());
-
+		
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";

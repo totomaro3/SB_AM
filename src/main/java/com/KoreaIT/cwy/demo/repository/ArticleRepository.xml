@@ -20,8 +20,23 @@
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
+			WHERE 1
 			<if test="boardId != 0">
 				AND A.BoardId = #{boardId}
+			</if>
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'" >
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'" >
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
 			</if>
 			ORDER BY A.id DESC
 			LIMIT #{limitFrom}, #{itemsInAPage};
@@ -30,12 +45,24 @@
 	<select id="getArticlesCount" resultType="int">
 			SELECT Count(*) AS cnt
 			FROM article AS A
-			INNER JOIN `member` AS M
-			ON A.memberId = M.id
+			WHERE 1
 			<if test="boardId != 0">
 				AND A.BoardId = #{boardId}
 			</if>
-			ORDER BY A.id DESC
+				<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'" >
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'" >
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
 	</select>
 
 	<select id="getArticle" resultType="Article">
@@ -72,5 +99,11 @@
 			FROM `member`
 			WHERE loginId = #{loginId}
 	</select>
+	
+	<update id="increaseHitCount">
+			UPDATE article
+			SET hitCount = hitCount + 1
+			WHERE id = #{id}
+	</update>
 
 </mapper>

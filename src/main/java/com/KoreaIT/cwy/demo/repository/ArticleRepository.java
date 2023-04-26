@@ -11,9 +11,9 @@ public interface ArticleRepository {
 
 	public Article getArticle(int id);
 
-	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage);
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword);
 	
-	public int getArticlesCount(int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword );
 
 	public int getLastInsertId();
 
@@ -25,4 +25,5 @@ public interface ArticleRepository {
 
 	public String getwriterName(int id);
 
+	public void increaseHitCount(int id);
 }

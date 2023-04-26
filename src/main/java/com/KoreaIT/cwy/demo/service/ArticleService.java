@@ -21,9 +21,9 @@ public class ArticleService {
 		return articleRepository.getArticle(id);
 	}
 	
-	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage) {
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword) {
 		
-		return articleRepository.getArticles(boardId, limitFrom, itemsInAPage);
+		return articleRepository.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
 	}
 	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId) {
@@ -48,8 +48,11 @@ public class ArticleService {
 		return articleRepository.getwriterName(id);
 	}
 
-	public int getArticlesCount(int boardId) {
-		return articleRepository.getArticlesCount(boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
+		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
+	public void increaseHitCount(int id) {
+		articleRepository.increaseHitCount(id);
+	}
 }
