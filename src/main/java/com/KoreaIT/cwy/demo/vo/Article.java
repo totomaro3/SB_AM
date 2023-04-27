@@ -14,6 +14,10 @@ public class Article {
 	private String body;
 	private int MemberId;
 	private int hitCount;
+
+	private int extra__sumReactionPoint;
+	private int extra__goodReactionPoint;
+	private int extra__badReactionPoint;
 	
 	private String extra__writer;
 }

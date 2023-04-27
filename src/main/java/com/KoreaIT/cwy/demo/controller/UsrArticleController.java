@@ -1,10 +1,6 @@
 package com.KoreaIT.cwy.demo.controller;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,9 +40,7 @@ public class UsrArticleController {
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);	
 		
-		List<Article> articles;
-		
-		articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
 		
 		if(board == null && boardId != 0) {
 			model.addAttribute("historyBack", true);
@@ -69,8 +63,6 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-		
-		articleService.increaseHitCount(id);
 		
 		Article article = articleService.getArticle(id);
 
@@ -191,5 +183,18 @@ public class UsrArticleController {
 		articleService.doDeleteArticle(article);
 
 		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list");
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@ResponseBody
+	public ResultData doIncreaseHitCountRd(int id) {
+
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+
+		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
 	}
 }

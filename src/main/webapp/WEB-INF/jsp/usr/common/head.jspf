@@ -28,7 +28,6 @@
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
-
 	<header>
 		<div class="flex mx-auto text-3xl ">
 			<a class="logo" href="/">ToToWeb</a>

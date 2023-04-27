@@ -16,10 +16,15 @@
 	</insert>
 
 	<select id="getArticles" resultType="Article">
-			SELECT A.*, M.nickname AS extra__writer
+			SELECT A.*, M.nickname AS extra__writer,
+			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
+			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
+			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint 
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
+			LEFT JOIN reactionPoint AS RP
+			ON A.id = RP.relId AND RP.relTypeCode = 'article'
 			WHERE 1
 			<if test="boardId != 0">
 				AND A.BoardId = #{boardId}
@@ -38,6 +43,7 @@
 					</otherwise>
 				</choose>
 			</if>
+			GROUP BY A.id
 			ORDER BY A.id DESC
 			LIMIT #{limitFrom}, #{itemsInAPage};
 	</select>
@@ -66,11 +72,17 @@
 	</select>
 
 	<select id="getArticle" resultType="Article">
-			SELECT A.*, M.nickname AS extra__writer
+			SELECT A.*, M.nickname AS extra__writer,
+			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
+			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
+			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint 
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
+			LEFT JOIN reactionPoint AS RP
+			ON A.id = RP.relId AND RP.relTypeCode = 'article'
 			WHERE A.id = #{id}
+			GROUP BY A.id
 	</select>
 
 	<delete id="doDeleteArticle">
@@ -86,7 +98,6 @@
 		<if test="body != null and title != ''">`body` = #{body},</if>
 		updateDate= NOW(),
 		</set>
-
 		WHERE id = #{id}
 	</update>
 
@@ -105,5 +116,27 @@
 			SET hitCount = hitCount + 1
 			WHERE id = #{id}
 	</update>
+	
+	<select id="getArticleHitCount" resultType="int">
+			SELECT hitCount
+			FROM article
+			WHERE id = #{id}
+	</select>
+	
+	<insert id="doIncreaseGoodReaction">
+		INSERT INTO reactionPoint
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		memberId = #{memberId},
+		reltypeCode = 'article',
+		relId = #{id},
+		`point` = 1;
+	</insert>
+	
+	<select id="isAlreadyReaction" resultType="boolean">
+		Select count(*)
+		FROM reactionPoint
+		WHERE memberId = #{memberId} AND relId = #{id}
+	</select>
 
 </mapper>

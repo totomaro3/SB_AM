@@ -25,5 +25,7 @@ public interface ArticleRepository {
 
 	public String getwriterName(int id);
 
-	public void increaseHitCount(int id);
+	public int increaseHitCount(int id);
+	
+	public int getArticleHitCount(int id);
 }

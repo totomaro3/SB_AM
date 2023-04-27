@@ -32,6 +32,9 @@
 			<th>제목</th>
 			<th>작성자</th>
 			<th>조회수</th>
+			<th>좋아요</th>
+			<th>싫어요</th>
+			<th>추천합</th>
 		</tr>
 	<c:forEach var="article" items="${articles }">
 		<tr style="text-align: center;">
@@ -40,6 +43,9 @@
 			<td><a href="detail?id=${article.id }">${article.title }</a></td>
 			<td>${article.extra__writer }</td>
 			<td>${article.hitCount }</td>
+			<td>${article.extra__goodReactionPoint }</td>
+			<td>${article.extra__badReactionPoint }</td>
+			<td>${article.extra__sumReactionPoint }</td>
 		</tr>
 	</c:forEach>
 	</table>
