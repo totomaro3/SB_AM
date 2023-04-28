@@ -123,20 +123,28 @@
 			WHERE id = #{id}
 	</select>
 	
-	<insert id="doIncreaseGoodReaction">
-		INSERT INTO reactionPoint
-		SET regDate = NOW(),
-		updateDate = NOW(),
-		memberId = #{memberId},
-		reltypeCode = 'article',
-		relId = #{id},
-		`point` = 1;
-	</insert>
+	<update id="increaseGoodReactionPoint">
+			UPDATE article
+			SET goodReactionPoint = goodReactionPoint + 1
+			WHERE id = #{relId}
+	</update>
 	
-	<select id="isAlreadyReaction" resultType="boolean">
-		Select count(*)
-		FROM reactionPoint
-		WHERE memberId = #{memberId} AND relId = #{id}
-	</select>
+	<update id="increaseBadReactionPoint">
+			UPDATE article
+			SET badReactionPoint = badReactionPoint + 1
+			WHERE id = #{relId}
+	</update>
+	
+	<update id="decreaseGoodReactionPoint">
+			UPDATE article
+			SET goodReactionPoint = goodReactionPoint - 1
+			WHERE id = #{relId}
+	</update>
+	
+	<update id="decreaseBadReactionPoint">
+			UPDATE article
+			SET badReactionPoint = badReactionPoint - 1
+			WHERE id = #{relId}
+	</update>
 
 </mapper>

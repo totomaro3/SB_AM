@@ -28,6 +28,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(beforeActionInterceptor)
 		.addPathPatterns("/**")
+		.addPathPatterns("/favicon.ico")
 		.excludePathPatterns("/resource/**").excludePathPatterns("/error");
 		
 		registry.addInterceptor(needLoginInterceptor)
@@ -37,6 +38,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		.addPathPatterns("/usr/article/doModify")
 		.addPathPatterns("/usr/article/doDelete")
 		.addPathPatterns("/usr/member/doLogout")
+		.addPathPatterns("/usr/reactionPoint/doGoodReaction")
+		.addPathPatterns("/usr/reactionPoint/doBadReaction")
 		.excludePathPatterns("/resource/**").excludePathPatterns("/error");
 		
 		registry.addInterceptor(needLogoutIntercepter)

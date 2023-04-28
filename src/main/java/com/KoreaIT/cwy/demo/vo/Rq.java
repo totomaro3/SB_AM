@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.KoreaIT.cwy.demo.util.Ut;
+
 import lombok.Getter;
 
 @Component
@@ -45,12 +47,29 @@ public class Rq {
 	}
 
 	public void printHistoryBackJs(String str) throws IOException {
+		resp.setContentType("text/html; charset=UTF-8");
 		resp.getWriter().append(str);
 	}
 	
-	public void returnHistoryBackJs(String str) throws IOException {
-		resp.getWriter().append(str);
+	public String jsHitoryBackOnView(String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+		return "usr/common/js";
 	}
+	
+	public String getCurrentUri() {
+		String currentUri = req.getRequestURI();
+		String queryString = req.getQueryString();
+		
+		currentUri += "?" + queryString;
+		
+		return currentUri;
+	}
+	
+	public String getEncodedCurrentUri() {
+		return Ut.getEncodedCurrentUri(getCurrentUri());
+	}
+	
 	
 	public void login(Member member) {
 		session.setAttribute("loginedMemberId", member.getId());
@@ -61,6 +80,15 @@ public class Rq {
 		session.removeAttribute("loginedMemberId");
 	}
 	
+	public String jsHistoryBack(String resultCode, String msg) {
+		return Ut.jsHistoryBack(resultCode, msg);
+	}
+
+	public String jsReplace(String msg, String uri) {
+		return Ut.jsReplace(msg, uri);
+	}
+	
+	// 삭제 금지
 	public void initOnBeforeActionInterceptor() {
 
 	}

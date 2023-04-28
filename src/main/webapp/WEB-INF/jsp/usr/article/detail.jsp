@@ -39,20 +39,23 @@
 		// 		ArticleDetail__increaseHitCount();
 		// 연습코드
 		setTimeout(ArticleDetail__increaseHitCount, 2000);
-		setTimeout(ArticleDetail__increaseReaction, 2000);
 	})
 	
 	$(function() {
 	  $('#increment-button').click(function() {
-			$.get('../reaction/doIncreaseGoodReactionRd?id=${article.id }', {
-				id : params.id,
-				ajaxMode : 'Y'
-			}, function(data) {
-				$('.article-detail__reaction-point').empty().html(data.data1);
-			}, 'json');
-    });
-  });
-});
+		  $.ajax({
+		      url: '/../reaction/doIncreaseGoodReactionRd',  // 함수를 실행할 엔드포인트 URL
+		      type: 'POST',
+		      dataType: 'json',
+		      success: function(data) {
+		        $('.article-detail__reaction-point').text(data.data1);  // 응답 데이터의 result 속성을 페이지에 적용
+		      },
+		      error: function() {
+		        alert('서버와 통신하는 중에 오류가 발생하였습니다.');
+		      }
+		    });
+		  });
+		});
 </script>
 
 <table>
@@ -81,18 +84,23 @@
 		</td>
 	</tr>
 	<tr>
-		<th>좋아요</th>
+		<th>추천</th>
 		<td>
-		<span class="article-detail__reaction-point">${article.extra__goodReactionPoint }</span>
+			<span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
+			<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span>
+			<div>
+				<span>
+					<span>&nbsp;</span>
+					<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
+						class="btn btn-xs">좋아요 👍</a>
+				</span>
+				<span>
+					<span>&nbsp;</span>
+					<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
+						class="btn btn-xs">싫어요 👎</a>
+				</span>
+			</div>
 		</td>
-	</tr>
-	<tr>
-		<th>싫어요</th>
-		<td>${article.extra__badReactionPoint }</td>
-	</tr>
-	<tr>
-		<th>추천 총합</th>
-		<td>${article.extra__sumReactionPoint }</td>
 	</tr>
 	<tr>
 		<th>제목</th>
@@ -115,11 +123,6 @@
 		<a class="btn btn-active btn-ghost text-xl" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
 			href="../article/doDelete?id=${article.id }">삭제</a>
 	</c:if>
-</div>
-<div class="button">
-<button class="btn btn-active btn-ghost text-xl" id="increment-button">좋아요</button>
-	<a class="btn btn-active btn-ghost text-xl" href="../reaction/doIncreaseGoodReaction?id=${article.id }">좋아요</a>
-	<a class="btn btn-active btn-ghost text-xl" href="../reaction/doIncreaseBadReaction?id=${article.id }">싫어요</a>
 </div>
 
 

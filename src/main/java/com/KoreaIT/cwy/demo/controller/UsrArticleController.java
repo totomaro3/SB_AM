@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.cwy.demo.service.ArticleService;
 import com.KoreaIT.cwy.demo.service.BoardService;
+import com.KoreaIT.cwy.demo.service.ReactionPointService;
 import com.KoreaIT.cwy.demo.util.Ut;
 import com.KoreaIT.cwy.demo.vo.Article;
 import com.KoreaIT.cwy.demo.vo.Board;
@@ -24,6 +25,8 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReactionPointService reactionPointService;
 	@Autowired
 	private Rq rq;
 
@@ -43,9 +46,7 @@ public class UsrArticleController {
 		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
 		
 		if(board == null && boardId != 0) {
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg","존재하지 않는 게시판 입니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView("존재하지 않는 게시판 입니다.");
 		}
 
 		model.addAttribute("board", board);
@@ -68,13 +69,15 @@ public class UsrArticleController {
 
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", id + "번글은 존재하지 않습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
 		}
 		// ResultData.from("S-1", id+"번글을 조회합니다.","String", sb.toString());
 		
+		boolean actorCanMakeReaction = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(), "article",
+				id);
+
 		model.addAttribute("article", article);
+		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
 
 		return "usr/article/detail";
 	}
@@ -124,18 +127,14 @@ public class UsrArticleController {
 
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", id + "번글은 존재하지 않습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
 		}
 
 		int loginedMemberId = rq.getLoginedMemberId();
 		
 		if (article.getMemberId() != loginedMemberId) {
 			// ResultData.from("F-2", Ut.f("해당 글에 대한 권한이 없습니다."));
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", "해당 글에 대한 권한이 없습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView("해당 글에 대한 권한이 없습니다.");
 		}
 
 		model.addAttribute("article", article);

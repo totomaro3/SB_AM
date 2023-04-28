@@ -21,7 +21,7 @@ public class NeedLoginIntercepter implements HandlerInterceptor {
 		resp.setContentType("text/html; charset=UTF-8");
 		Rq rq = (Rq) req.getAttribute("rq");
 		if (!rq.isLogined()) {
-			rq.printHistoryBackJs(Ut.jsHistoryBack("F-A", "로그인을 해주세요."));
+			rq.printHistoryBackJs(rq.jsHistoryBack("F-A", "로그인을 해주세요."));
 			return false;
 		}
 		

@@ -1,5 +1,8 @@
 package com.KoreaIT.cwy.demo.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class Ut {
 
 	public static boolean empty(Object obj) {
@@ -22,21 +25,70 @@ public class Ut {
 	}
 
 	public static String jsHistoryBack(String resultCode, String msg) {
+
+		if (msg == null) {
+			msg = "";
+		}
+
 		return Ut.f("""
 				<script>
-					alert("%s (code: %s)");
+					const msg = '%s'.trim();
+					if ( msg.length > 0 ){
+						alert(msg);
+					}
 					history.back();
 				</script>
-					""", msg, resultCode);
+				""", msg);
+	}
+
+	public static String jsReplace(String msg, String uri) {
+		if (msg == null) {
+			msg = "";
+		}
+		if (uri == null) {
+			uri = "/";
+		}
+
+		return Ut.f("""
+					<script>
+					const msg = '%s'.trim();
+					if ( msg.length > 0 ){
+						alert(msg);
+					}
+					location.replace('%s');
+				</script>
+				""", msg, uri);
+
 	}
 
 	public static String jsReplace(String resultCode, String msg, String uri) {
+		if (msg == null) {
+			msg = "";
+		}
+		if (uri == null) {
+			uri = "/";
+		}
+
 		return Ut.f("""
-				<script>
-					alert("%s (code: %s)");
+					<script>
+					const msg = '%s'.trim();
+					if ( msg.length > 0 ){
+						alert(msg);
+					}
 					location.replace('%s');
 				</script>
-					""", msg, resultCode, uri);
+				""", msg, uri);
+
 	}
 
+	public static String getEncodedCurrentUri(String currentUri) {
+
+		try {
+			return URLEncoder.encode(currentUri, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return currentUri;
+		}
+
+	}
 }
