@@ -28,6 +28,11 @@ public class UsrMemberController {
 	@Autowired
 	private Rq rq;
 
+	@RequestMapping("/usr/member/join")
+	public String join(String loginId, String loginPw) {
+		return "usr/member/join";
+	}
+	
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public ResultData<?> doJoin(HttpSession httpsession, String loginId, String loginPw, String name, String nickname,
@@ -75,7 +80,7 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
-	public String login( String loginId, String loginPw) {
+	public String login(String loginId, String loginPw) {
 		return "usr/member/login";
 	}
 

@@ -34,6 +34,7 @@
 			<th>조회수</th>
 			<th>좋아요</th>
 			<th>싫어요</th>
+			<th>댓글 수</th>
 		</tr>
 	<c:forEach var="article" items="${articles }">
 		<tr style="text-align: center;">
@@ -44,6 +45,7 @@
 			<td>${article.hitCount }</td>
 			<td>${article.goodReactionPoint }</td>
 			<td>${article.badReactionPoint }</td>
+			<td></td>
 		</tr>
 	</c:forEach>
 	</table>

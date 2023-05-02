@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.KoreaIT.cwy.demo.service.ArticleService;
 import com.KoreaIT.cwy.demo.service.BoardService;
 import com.KoreaIT.cwy.demo.service.ReactionPointService;
+import com.KoreaIT.cwy.demo.service.ReplyService;
 import com.KoreaIT.cwy.demo.util.Ut;
 import com.KoreaIT.cwy.demo.vo.Article;
+import com.KoreaIT.cwy.demo.vo.Reply;
 import com.KoreaIT.cwy.demo.vo.Board;
 import com.KoreaIT.cwy.demo.vo.ResultData;
 import com.KoreaIT.cwy.demo.vo.Rq;
@@ -25,6 +27,8 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReplyService replyService;
 	@Autowired
 	private ReactionPointService reactionPointService;
 	@Autowired
@@ -66,6 +70,7 @@ public class UsrArticleController {
 	public String showDetail(Model model, int id) {
 		
 		Article article = articleService.getArticle(id);
+		
 
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
@@ -75,9 +80,22 @@ public class UsrArticleController {
 		
 		boolean actorCanMakeReaction = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(), "article",
 				id);
-
+		
+		boolean actorHasGoodReaction = reactionPointService.actorHasGoodReaction(rq.getLoginedMemberId(), "article",
+				id);
+		
+		boolean actorHasBadReaction = reactionPointService.actorHasBadReaction(rq.getLoginedMemberId(), "article",
+				id);
+		
+		List<Reply> replies = replyService.getReplys(rq.getLoginedMemberId(), "article" , id);
+		int repliesCount = replies.size();
+		model.addAttribute("repliesCount", repliesCount);
+		
 		model.addAttribute("article", article);
+		model.addAttribute("replies", replies);
 		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
+		model.addAttribute("actorHasGoodReaction", actorHasGoodReaction);
+		model.addAttribute("actorHasBadReaction", actorHasBadReaction);
 
 		return "usr/article/detail";
 	}

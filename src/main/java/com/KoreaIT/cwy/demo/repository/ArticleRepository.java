@@ -3,8 +3,10 @@ package com.KoreaIT.cwy.demo.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.KoreaIT.cwy.demo.vo.Article;
+import com.KoreaIT.cwy.demo.vo.Reply;
 
 @Mapper
 public interface ArticleRepository {

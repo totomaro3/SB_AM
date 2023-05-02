@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.KoreaIT.cwy.demo.repository.ArticleRepository;
 import com.KoreaIT.cwy.demo.util.Ut;
 import com.KoreaIT.cwy.demo.vo.Article;
+import com.KoreaIT.cwy.demo.vo.Reply;
 import com.KoreaIT.cwy.demo.vo.ResultData;
 
 @Service
@@ -59,7 +60,7 @@ public class ArticleService {
 			return ResultData.from("F-1", "해당 게시물은 없음", "affectedRow", affectedRow);
 		}
 
-		return ResultData.from("S-1", "조회수 증가", "affectedRowRd", affectedRow);
+		return ResultData.from("S-1", "조회수 증가", "affectedRow", affectedRow);
 	}
 
 	public int getArticleHitCount(int id) {

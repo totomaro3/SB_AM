@@ -43,6 +43,7 @@
 				<li><a href="/usr/article/write">WRITE</a></li>
 				<c:if test="${!rq.isLogined() }">
 					<li><a href="/usr/member/login">LOGIN</a></li>
+					<li><a href="/usr/member/join">JOIN</a></li>
 				</c:if>
 				<c:if test="${rq.isLogined() }">
 				<li><a href="/usr/member/doLogout">LOGOUT</a></li>
