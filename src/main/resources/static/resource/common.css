@@ -41,16 +41,16 @@ li {
 	padding: 0 0.5rem;
 }
 
-header > div > ul > li{
+header > section > div > div > ul > li{
 	position: relative;
 }
 
 
-header > div > ul > li > ul {
+header > section > div > div > ul > li > ul {
 	display: none;
 }
 
-header > div > ul > li:hover > ul {
+header > section > div > div > ul > li:hover > ul {
 	display: block;
 	position: absolute;
 	left: 0;

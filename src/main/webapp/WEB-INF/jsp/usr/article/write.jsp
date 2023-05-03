@@ -4,6 +4,8 @@
 <c:set var="pageTitle" value="ARTICLE WRITE" />
 <%@ include file="../common/head.jspf"%>
 
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3">
 <form method="post" action="doWrite">
 	<table>
 		<tr>
@@ -33,5 +35,8 @@
 	<button class="button btn btn-active btn-ghost text-xl" type="submit">작성</button>
 </form>
 <button class="button btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
+</div>
+</section>
+
 
 <%@ include file="../common/foot.jspf"%>

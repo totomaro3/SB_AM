@@ -118,6 +118,72 @@ public class UsrMemberController {
 		
 		return Ut.jsReplace("S-1", Ut.f("로그아웃 되었습니다."),"../home/main");
 	}
+	
+	@RequestMapping("/usr/member/myPage")
+	public String showMyPage() {
+		
+		return "usr/member/myPage";
+	}
+	
+	@RequestMapping("/usr/member/checkPw")
+	public String showCheckPw() {
+		
+		return "usr/member/checkPw";
+	}
+	
+	@RequestMapping("/usr/member/doCheckPw")
+	@ResponseBody
+	public String doCheckPw(String loginId, String loginPw) {
+		
+		if (Ut.empty(loginPw)) {
+			return rq.jsHitoryBackOnView("비밀번호를 입력해주세요");
+		}
+
+		Member member = memberService.login(loginId, loginPw);
+
+		if (!member.getLoginPw().equals(loginPw)) {
+			return rq.jsHitoryBackOnView(Ut.f("비밀번호가 일치하지 않습니다."));
+		}
+		
+		return Ut.f("""
+				<script>
+				location.replace('modify');
+				</script>
+				""");
+	}
+	
+	@RequestMapping("/usr/member/modify")
+	public String modify() {
+		return "/usr/member/modify";
+	}
+
+	@RequestMapping("/usr/member/doModify")
+	@ResponseBody
+	public String doModify(int id, String loginId, String loginPw, String name, String nickname,
+			String cellphoneNum, String email) {
+		
+		memberService.doModifyMember(id, loginId, loginPw, name, nickname, cellphoneNum, email);
+		
+		Member member = memberService.login(loginId, loginPw);
+		
+		rq.login(member);
+		
+		//ResultData.from("S-1", id + "번글이 수정되었습니다.", "article", article);
+		return rq.jsReplace("S-1", nickname + "회원이 수정되었습니다.", "../home/main");
+		
+	}
+
+	@RequestMapping("/usr/member/doDelete")
+	@ResponseBody
+	public String doDelete(int id) {
+
+		memberService.doDeleteMember(id);
+		
+		return rq.jsReplace("S-1", "회원이 삭제되었습니다.", "../home/main");
+		
+	}
+	
+	
 }
 
 //http://localhost:8081/usr/member/doJoin?loginId=1&loginPw=1&name=abc&nickname=toto&cellphoneNum=1&email=abc@gmail.com

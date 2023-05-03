@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.KoreaIT.cwy.demo.repository.ReplyRepository;
 import com.KoreaIT.cwy.demo.util.Ut;
+import com.KoreaIT.cwy.demo.vo.Article;
 import com.KoreaIT.cwy.demo.vo.Reply;
 import com.KoreaIT.cwy.demo.vo.ResultData;
 
@@ -28,8 +29,29 @@ public class ReplyService {
 		return ResultData.from("S-1", Ut.f("%d번 댓글이 생성되었습니다", id), "id", id);
 	}
 	
-	public List<Reply> getReplys(int memberId, String relTypeCode, int relId) {
+	public List<Reply> getReplies(int memberId, String relTypeCode, int relId) {
 		
 		return replyRepository.getReplies(memberId, relTypeCode, relId);
+	}
+
+	public ResultData<Reply> getReply(int id) {
+		
+		Reply reply = replyRepository.getReply(id);
+		
+		return ResultData.from("S-1", Ut.f("%d번 글을 불러왔습니다.", id),"reply", reply);
+	}
+
+	public ResultData<Integer> doModifyReply(int id, String body) {
+		
+		replyRepository.doModifyReply(id,body);
+		
+		return ResultData.from("S-1", Ut.f("%d번 댓글이 수정되었습니다", id),"id", id);
+	}
+
+	public ResultData<Integer> doDeleteReply(int id) {
+		
+		replyRepository.doDeleteReply(id);
+		
+		return ResultData.from("S-1", Ut.f("%d번 댓글이 삭제되었습니다", id),"id", id);
 	}
 }

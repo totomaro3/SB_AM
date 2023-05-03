@@ -75,7 +75,9 @@
 	}
 </script>
 
-<div class="button">
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3">
+<div class="button mt-8 text-xl">
 	<button class="btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
 	<c:if test="${article.memberId eq loginedMemberId}">
 		<a class="btn btn-active btn-ghost text-xl" href="../article/modify?id=${article.id }">수정</a>
@@ -85,7 +87,11 @@
 			href="../article/doDelete?id=${article.id }">삭제</a>
 	</c:if>
 </div>
+	</div>
+</section>
 
+<section class="text-xl">
+	<div class="container mx-auto px-3">
 <table>
 	<tr>
 		<th>번호</th>
@@ -139,6 +145,8 @@
 		<td>${article.body }</td>
 	</tr>
 </table>
+	</div>
+</section>
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
@@ -158,9 +166,6 @@
 								<td>
 									<textarea class="input input-bordered w-full max-w-xs" type="text" name="body" placeholder="내용을 입력해주세요" /></textarea>
 								</td>
-							</tr>
-							<tr>
-								<th></th>
 								<td>
 									<button type="submit" value="작성" />
 									댓글 작성
@@ -168,48 +173,62 @@
 								</td>
 							</tr>
 						</tbody>
-
 					</table>
 				</form>
 			</c:if>
 			<c:if test="${!rq.isLogined() }">
-				<a class="btn-text-link btn btn-active btn-ghost" href="/usr/member/login">로그인</a> 후 이용해줘
+				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost" href="/usr/member/login">로그인</a> 후 이용해줘
 			</c:if>
 		</div>
 	</div>
 </section>
 
-<section class="mt-8 text-xl">
+<section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
-		<c:forEach var="reply" items="${replies }">
-			<table class = "my-2">
-			<tr>
-				<td>작성날짜 : ${reply.regDate }</td>
-				<td>수정날짜 : ${reply.updateDate }</td>
-				<td>작성자 : ${reply.extra__writer }</td>
-				<td>
-					<span>&nbsp;좋아요 : ${reply.goodReactionPoint }&nbsp;</span>
-					<span>&nbsp;싫어요 : ${reply.badReactionPoint }&nbsp;</span>
-					<div>
-						<span>
-						<span>&nbsp;</span>
-						<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-							class="btn btn-xs ">좋아요 👍</a>
-						</span>
-						<span>
-						<span>&nbsp;</span>
-						<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-							class="btn btn-xs ">싫어요 👎</a>
-						</span>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>${reply.body }</td>
-			</tr>
-				</table>
-		</c:forEach>
+		<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
+		<table class="table table-zebra w-full">
+			<colgroup>
+				<col width="70" />
+				<col width="100" />
+				<col width="100" />
+				<col width="50" />
+				<col width="140" />
+				<col width="140" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>날짜</th>
+					<th>작성자</th>
+					<th>추천</th>
+					<th>내용</th>
+					<th>수정삭제</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="reply" items="${replies }">
+					<tr class="hover">
+						<td>
+							<div class="badge">${reply.id}</div>
+						</td>
+						<td>${reply.regDate.substring(2,16)}</td>
+						<td>${reply.extra__writer}</td>
+						<td>${reply.goodReactionPoint}</td>
+						<td align="left">${reply.body}</td>
+						<td>
+							<c:if test="${reply.memberId eq loginedMemberId}">
+								<a class="btn btn-active btn-ghost text-xl" href="../reply/modify?id=${reply.id }">수정</a>
+							</c:if>
+							<c:if test="${reply.memberId eq loginedMemberId}">
+								<a class="btn btn-active btn-ghost text-xl" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
+									href="../reply/doDelete?id=${reply.id }">삭제</a> 
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </section>
 

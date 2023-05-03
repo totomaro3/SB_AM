@@ -21,6 +21,10 @@ public class Rq {
 	private boolean isLogined;
 	@Getter
 	private int loginedMemberId;
+	@Getter
+	private String loginedMemberNickname;
+	@Getter
+	private Member loginedMember;
 	
 	HttpServletRequest req;
 	HttpServletResponse resp;
@@ -33,17 +37,35 @@ public class Rq {
 		
 		boolean isLogined = false;
 		int loginedMemberId = 0;
+		String loginedMemberNickname = "";
+		Member loginedMember = null;
 
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMemberNickname = (String) session.getAttribute("loginedMemberNickname");
+			loginedMember = (Member) session.getAttribute("loginedMember");
 		}
 
 		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
+		this.loginedMemberNickname = loginedMemberNickname;
+		this.loginedMember = loginedMember;
 		
 		this.req.setAttribute("rq", this);
 
+	}
+	
+	public String jsHistoryBack(String resultCode, String msg) {
+		return Ut.jsHistoryBack(resultCode, msg);
+	}
+
+	public String jsReplace(String msg, String uri) {
+		return Ut.jsReplace(msg, uri);
+	}
+	
+	public String jsReplace(String resultCode ,String msg, String uri) {
+		return Ut.jsReplace(resultCode, msg, uri);
 	}
 
 	public void printHistoryBackJs(String str) throws IOException {
@@ -74,18 +96,11 @@ public class Rq {
 	public void login(Member member) {
 		session.setAttribute("loginedMemberId", member.getId());
 		session.setAttribute("loginedMemberNickname", member.getNickname());
+		session.setAttribute("loginedMember", member);
 	}
 	
 	public void logout() {
 		session.removeAttribute("loginedMemberId");
-	}
-	
-	public String jsHistoryBack(String resultCode, String msg) {
-		return Ut.jsHistoryBack(resultCode, msg);
-	}
-
-	public String jsReplace(String msg, String uri) {
-		return Ut.jsReplace(msg, uri);
 	}
 	
 	// 삭제 금지

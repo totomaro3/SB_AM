@@ -3,7 +3,8 @@
 <c:set var="pageTitle" value="ARTICLE ${board.code} LIST" />
 <%@ include file="../common/head.jspf" %>
 	
-<section>
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3">
 	<div class="flex">
 		<div>
 			게시물 갯수 : 
@@ -72,6 +73,7 @@
 				<a class="btn" href="${baseUri }&page=${pagesCount }">${pagesCount }</a>
 			</c:if>
 	</div>
+</div>
 </section>
 	
 	<style type="text/css">

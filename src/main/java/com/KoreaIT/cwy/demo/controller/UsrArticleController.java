@@ -47,7 +47,9 @@ public class UsrArticleController {
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);	
 		
-		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		ResultData<List<Article>> getArticlesRd = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		
+		List<Article> articles = getArticlesRd.getData1();
 		
 		if(board == null && boardId != 0) {
 			return rq.jsHitoryBackOnView("존재하지 않는 게시판 입니다.");
@@ -69,9 +71,12 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 		
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		Article article = getArticleRd.getData1();
 		
-
+		List<Reply> replies = replyService.getReplies(rq.getLoginedMemberId(), "article" , id);
+		int repliesCount = replies.size();
+		
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
 			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
@@ -87,10 +92,7 @@ public class UsrArticleController {
 		boolean actorHasBadReaction = reactionPointService.actorHasBadReaction(rq.getLoginedMemberId(), "article",
 				id);
 		
-		List<Reply> replies = replyService.getReplys(rq.getLoginedMemberId(), "article" , id);
-		int repliesCount = replies.size();
 		model.addAttribute("repliesCount", repliesCount);
-		
 		model.addAttribute("article", article);
 		model.addAttribute("replies", replies);
 		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
@@ -131,7 +133,9 @@ public class UsrArticleController {
 
 		int id = (int) writeArticleRd.getData1();
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		// ResultData.newData(writeArticleRd, "String", sb.toString());
 
@@ -141,7 +145,9 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/modify")
 	public String showModify(Model model, int id) {
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
@@ -164,7 +170,9 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
 		
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 		
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
@@ -186,7 +194,9 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(int id) {
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
@@ -204,9 +214,9 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
-	public ResultData doIncreaseHitCountRd(int id) {
+	public ResultData<Integer> doIncreaseHitCountRd(int id) {
 
-		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
 
 		if (increaseHitCountRd.isFail()) {
 			return increaseHitCountRd;

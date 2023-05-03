@@ -19,7 +19,7 @@ public class NeedLoginIntercepter implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
 		resp.setContentType("text/html; charset=UTF-8");
-		Rq rq = (Rq) req.getAttribute("rq");
+		
 		if (!rq.isLogined()) {
 			rq.printHistoryBackJs(rq.jsHistoryBack("F-A", "로그인을 해주세요."));
 			return false;

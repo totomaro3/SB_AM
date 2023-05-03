@@ -17,14 +17,18 @@ public class ArticleService {
 	@Autowired
 	ArticleRepository articleRepository;
 
-	public Article getArticle(int id) {
+	public ResultData<Article> getArticle(int id) {
+
+		Article article = articleRepository.getArticle(id);
 		
-		return articleRepository.getArticle(id);
+		return ResultData.from("S-1", Ut.f("%d번 글을 불러왔습니다.", id),"article", article);
 	}
 	
-	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword) {
+	public ResultData<List<Article>> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword) {
 		
-		return articleRepository.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		List<Article> articles = articleRepository.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		
+		return ResultData.from("S-1", Ut.f("모든 글을 불러왔습니다."),"articles", articles);
 	}
 	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId) {
@@ -41,8 +45,11 @@ public class ArticleService {
 		articleRepository.doDeleteArticle(article);
 	}
 
-	public void doModifyArticle(int id, String title, String body) {
+	public ResultData<Integer> doModifyArticle(int id, String title, String body) {
+		
 		articleRepository.doModifyArticle(id,title,body);
+		
+		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id),"id", id);
 	}
 
 	public String getwriterName(int id) {
@@ -53,7 +60,7 @@ public class ArticleService {
 		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
-	public ResultData increaseHitCount(int id) {
+	public ResultData<Integer>  increaseHitCount(int id) {
 		int affectedRow = articleRepository.increaseHitCount(id);
 
 		if (affectedRow == 0) {
@@ -67,7 +74,7 @@ public class ArticleService {
 		return articleRepository.getArticleHitCount(id);
 	}
 
-	public ResultData increaseGoodReactionPoint(int relId) {
+	public ResultData<Integer> increaseGoodReactionPoint(int relId) {
 		int affectedRow = articleRepository.increaseGoodReactionPoint(relId);
 
 		if (affectedRow == 0) {
@@ -76,7 +83,7 @@ public class ArticleService {
 		return ResultData.from("S-1", "좋아요 증가", "affectedRow", affectedRow);
 	}
 
-	public ResultData increaseBadReactionPoint(int relId) {
+	public ResultData<Integer>  increaseBadReactionPoint(int relId) {
 
 		int affectedRow = articleRepository.increaseBadReactionPoint(relId);
 
@@ -86,7 +93,7 @@ public class ArticleService {
 		return ResultData.from("S-1", "싫어요 증가", "affectedRow", affectedRow);
 	}
 
-	public ResultData decreaseGoodReationPoint(int relId) {
+	public ResultData<Integer>  decreaseGoodReationPoint(int relId) {
 		int affectedRow = articleRepository.decreaseGoodReactionPoint(relId);
 
 		if (affectedRow == 0) {
@@ -95,7 +102,7 @@ public class ArticleService {
 		return ResultData.from("S-1", "좋아요 취소", "affectedRow", affectedRow);
 	}
 	
-	public ResultData decreaseBadReationPoint(int relId) {
+	public ResultData<Integer>  decreaseBadReationPoint(int relId) {
 		int affectedRow = articleRepository.decreaseBadReactionPoint(relId);
 
 		if (affectedRow == 0) {

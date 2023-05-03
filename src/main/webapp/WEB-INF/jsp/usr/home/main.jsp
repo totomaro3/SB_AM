@@ -3,6 +3,10 @@
 <c:set var="pageTitle" value="HOME MAIN" />
 <%@ include file="../common/head.jspf" %>
 
-<div>제작자 : ToToMaRo</div>
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3">
+		<div>제작자 : ToToMaRo</div>
+	</div>
+</section>
 
 <%@ include file="../common/foot.jspf"%>
