@@ -31,10 +31,12 @@
 			<th>내용</th>
 			<td><textarea class="input input-bordered w-full max-w-xs" type="text" name="body" placeholder="내용을 입력해주세요" />${article.body }</textarea></td>
 		</tr>
+		<tr>
+			<th><button class="button btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button></th>
+			<td><button class="button btn btn-active btn-ghost text-xl" type="submit">작성</button></td>
+		</tr>
 	</table>
-	<button class="button btn btn-active btn-ghost text-xl" type="submit">작성</button>
 </form>
-<button class="button btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
 </div>
 </section>
 

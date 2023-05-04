@@ -39,18 +39,13 @@
 						<td>${rq.loginedMember.email }</td>
 					</tr>
 					<tr>
-						<th></th>
+						<th><button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button></th>
 						<td>
 							<a href="../member/checkPw" class="btn btn-active btn-ghost">회원정보 수정</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="btns">
-			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
-
-
 		</div>
 	</div>
 </section>

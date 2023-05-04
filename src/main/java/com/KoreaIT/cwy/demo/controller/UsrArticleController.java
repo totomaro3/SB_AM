@@ -209,7 +209,7 @@ public class UsrArticleController {
 
 		articleService.doDeleteArticle(article);
 
-		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list");
+		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list?boardId=0&page=1");
 	}
 	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")

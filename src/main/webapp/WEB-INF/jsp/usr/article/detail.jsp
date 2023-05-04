@@ -75,9 +75,9 @@
 	}
 </script>
 
-<section class="mt-5 text-xl">
+<section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
-<div class="button mt-8 text-xl">
+<div class="button">
 	<button class="btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
 	<c:if test="${article.memberId eq loginedMemberId}">
 		<a class="btn btn-active btn-ghost text-xl" href="../article/modify?id=${article.id }">수정</a>
@@ -90,7 +90,7 @@
 	</div>
 </section>
 
-<section class="text-xl">
+<section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
 <table>
 	<tr>
@@ -148,7 +148,7 @@
 	</div>
 </section>
 
-<section class="mt-8 text-xl">
+<section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
 			<c:if test="${rq.isLogined() }">
@@ -183,7 +183,7 @@
 	</div>
 </section>
 
-<section class="mt-5 text-xl">
+<section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
 		<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
 		<table class="table table-zebra w-full">

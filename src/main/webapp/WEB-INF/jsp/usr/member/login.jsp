@@ -18,12 +18,11 @@
 			<td><input class="input input-bordered w-full max-w-xs" type="text" name="loginPw" placeholder="비밀번호를 입력해주세요" /></td>
 		</tr>
 		<tr>
-			<th></th>
+			<th><button class="button btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button></th>
 			<td><button class="btn btn-active btn-ghost text-xl" type="submit">로그인</button></td>
 		</tr>
 	</table>
 </form>
-<button class="button btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
 </div>
 </section>
 

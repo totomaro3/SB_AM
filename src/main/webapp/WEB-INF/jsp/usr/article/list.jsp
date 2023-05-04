@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	
-	<table style="border-collapse: collapse; border-color: green">
+	<table class="mt-5 text-xl" style="border-collapse: collapse; border-color: green">
 		<tr>
 			<th>번호</th>
 			<th>작성날짜</th>
@@ -50,7 +50,8 @@
 		</tr>
 	</c:forEach>
 	</table>
-	<div class="btn-group">
+	
+	<div class="btn-group mt-5 text-xl">
 			<c:set var="paginationLen" value="3" />
 			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}" />
 			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount}" />
