@@ -47,10 +47,12 @@
 			<th>내용</th>
 			<td><textarea class="input input-bordered w-full max-w-xs" name="body" placeholder="내용을 입력해주세요" />${reply.body }</textarea></td>
 		</tr>
+		<tr>
+			<th><button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button></th>
+			<td><button class="btn-text-link btn btn-active btn-ghost" type="submit">수정</button></td>
+		</tr>
 	</table>
-	<button type="submit">수정</button>
 </form>
-<button type="button" onclick="history.back();">뒤로가기</button>
 </div>
 </section>
 

@@ -43,10 +43,9 @@ public class MemberService {
 		return memberRepository.getMemberByLoginId(loginId);
 	}
 
-	public ResultData<String> doModifyMember(int id, String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-			String email) {
+	public ResultData<String> doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
-		memberRepository.doModifyMember(id, loginId, loginPw, name, nickname, cellphoneNum, email);
+		memberRepository.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email);
 		
 		return ResultData.from("S-1", nickname+"회원이 수정되었습니다.","nickname", nickname);
 	}

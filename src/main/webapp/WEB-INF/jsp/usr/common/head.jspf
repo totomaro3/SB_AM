@@ -25,6 +25,7 @@
 
 
 <link rel="stylesheet" href="/resource/common.css" />
+<link rel="shortcut icon" href="/resource/favicon.ico" />
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
@@ -45,11 +46,11 @@
 					<li><a href="/usr/article/write">WRITE</a></li>
 					<c:if test="${!rq.isLogined() }">
 						<li><a href="/usr/member/join">JOIN</a></li>
-						<li><a href="/usr/member/login">LOGIN</a></li>
+						<li><a href="${rq.getLoginUri() }">LOGIN</a></li>
 					</c:if>
 					<c:if test="${rq.isLogined() }">
 						<li><a href="/usr/member/myPage">MYPAGE</a></li>
-						<li><a href="/usr/member/doLogout">LOGOUT</a></li>
+						<li><a href="${rq.getLogoutUri() }">LOGOUT</a></li>
 					</c:if>
 			</ul>
 		</div>

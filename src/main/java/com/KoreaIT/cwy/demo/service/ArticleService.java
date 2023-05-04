@@ -52,10 +52,6 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id),"id", id);
 	}
 
-	public String getwriterName(int id) {
-		return articleRepository.getwriterName(id);
-	}
-
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
 		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}

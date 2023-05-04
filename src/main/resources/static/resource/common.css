@@ -55,3 +55,12 @@ header > section > div > div > ul > li:hover > ul {
 	position: absolute;
 	left: 0;
 }
+
+html>body .toastui-editor-contents, html>body .ProseMirror, html>body .toastui-editor-md-mode
+	{
+	font-size: 0.5rem;
+}
+
+td {
+	text-align: left;
+}

@@ -8,6 +8,7 @@
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
 <form method="post" action="doLogin">
+	<input value="${param.afterLoginUri }" type="hidden" name="afterLoginUri" />
 	<table>
 		<tr>
 			<th>아이디</th>

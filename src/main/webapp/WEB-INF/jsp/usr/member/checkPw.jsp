@@ -27,19 +27,14 @@
 							</td>
 						</tr>
 						<tr>
-							<th></th>
+							<th><button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button></th>
 							<td>
-								<button type="submit">확인</button>
+								<button class="btn-text-link btn btn-active btn-ghost" type="submit">확인</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</form>
-		</div>
-		<div class="btns">
-			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
-
-
 		</div>
 	</div>
 </section>

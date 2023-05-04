@@ -124,9 +124,9 @@
 							</td>
 						</tr>
 						<tr>
-							<th></th>
+							<th><button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button></th>
 							<td>
-								<button type="submit" value="수정" />
+								<button class="btn-text-link btn btn-active btn-ghost" type="submit" value="수정" />
 								수정
 								</button>
 							</td>
@@ -134,11 +134,6 @@
 					</tbody>
 				</table>
 			</form>
-		</div>
-		<div class="btns">
-			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
-
-
 		</div>
 	</div>
 </section>

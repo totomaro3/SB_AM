@@ -80,13 +80,14 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
-	public String login(String loginId, String loginPw) {
+	public String login(String loginId, String loginPw, String replaceUri) {
+		
 		return "usr/member/login";
 	}
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(String loginId, String loginPw) {
+	public String doLogin(String loginId, String loginPw, String afterLoginUri) {
 
 		if (Ut.empty(loginId)) {
 			return Ut.jsHistoryBack("F-1", "아이디를 입력해주세요");
@@ -106,17 +107,17 @@ public class UsrMemberController {
 		}
 		
 		rq.login(member);
-
-		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", member.getNickname()),"../home/main");
+		
+		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", member.getNickname()), afterLoginUri);
 	}
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout() {
+	public String doLogout(String afterLogoutUri) {
 		
 		rq.logout();
 		
-		return Ut.jsReplace("S-1", Ut.f("로그아웃 되었습니다."),"../home/main");
+		return Ut.jsReplace("S-1", Ut.f("로그아웃 되었습니다."), afterLogoutUri);
 	}
 	
 	@RequestMapping("/usr/member/myPage")
@@ -136,20 +137,16 @@ public class UsrMemberController {
 	public String doCheckPw(String loginId, String loginPw) {
 		
 		if (Ut.empty(loginPw)) {
-			return rq.jsHitoryBackOnView("비밀번호를 입력해주세요");
+			return rq.jsHistoryBack("F-1","비밀번호를 입력해주세요");
 		}
 
 		Member member = memberService.login(loginId, loginPw);
 
 		if (!member.getLoginPw().equals(loginPw)) {
-			return rq.jsHitoryBackOnView(Ut.f("비밀번호가 일치하지 않습니다."));
+			return rq.jsHistoryBack("F-1","비밀번호가 일치하지 않습니다.");
 		}
 		
-		return Ut.f("""
-				<script>
-				location.replace('modify');
-				</script>
-				""");
+		return rq.jsReplace("", "modify");
 	}
 	
 	@RequestMapping("/usr/member/modify")
@@ -162,14 +159,14 @@ public class UsrMemberController {
 	public String doModify(int id, String loginId, String loginPw, String name, String nickname,
 			String cellphoneNum, String email) {
 		
-		memberService.doModifyMember(id, loginId, loginPw, name, nickname, cellphoneNum, email);
+		memberService.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email);
 		
 		Member member = memberService.login(loginId, loginPw);
 		
 		rq.login(member);
 		
 		//ResultData.from("S-1", id + "번글이 수정되었습니다.", "article", article);
-		return rq.jsReplace("S-1", nickname + "회원이 수정되었습니다.", "../home/main");
+		return rq.jsReplace("S-1", nickname + "회원이 수정되었습니다.", "../member/myPage");
 		
 	}
 

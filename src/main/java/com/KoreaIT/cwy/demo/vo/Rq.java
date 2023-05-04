@@ -1,6 +1,7 @@
 package com.KoreaIT.cwy.demo.vo;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,18 +30,21 @@ public class Rq {
 	HttpServletRequest req;
 	HttpServletResponse resp;
 	HttpSession session;
+	Map<String, String> paramMap;
 	
 	public Rq(HttpServletRequest req,HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
 		this.session = req.getSession();
+		this.paramMap = Ut.getParamMap(req);
 		
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 		String loginedMemberNickname = "";
 		Member loginedMember = null;
+		
 
-		if (session.getAttribute("loginedMemberId") != null) {
+		if (session.getAttribute("loginedMember") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			loginedMemberNickname = (String) session.getAttribute("loginedMemberNickname");
@@ -68,7 +72,7 @@ public class Rq {
 		return Ut.jsReplace(resultCode, msg, uri);
 	}
 
-	public void printHistoryBackJs(String str) throws IOException {
+	public void printJs(String str) throws IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		resp.getWriter().append(str);
 	}
@@ -101,6 +105,36 @@ public class Rq {
 	
 	public void logout() {
 		session.removeAttribute("loginedMemberId");
+		session.removeAttribute("loginedMemberNickname");
+		session.removeAttribute("loginedMember");
+	}
+	
+	public String getLoginUri() {
+		return "../member/login?afterLoginUri=" + getAfterLoginUri();
+	}
+
+	private String getAfterLoginUri() {
+//		로그인 후 접근 불가 페이지
+
+		String requestUri = req.getRequestURI();
+
+		switch (requestUri) {
+		case "/usr/member/login":
+		case "/usr/member/join":
+			return Ut.getEncodedUri(paramMap.get("afterLoginUri"));
+
+		}
+
+		return getEncodedCurrentUri();
+	}
+	
+	public String getLogoutUri() {
+		return "../member/doLogout?afterLogoutUri=" + getAfterLogoutUri();
+	}
+
+	private String getAfterLogoutUri() {
+
+		return getEncodedCurrentUri();
 	}
 	
 	// 삭제 금지

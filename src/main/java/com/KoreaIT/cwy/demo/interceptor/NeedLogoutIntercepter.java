@@ -21,7 +21,7 @@ public class NeedLogoutIntercepter implements HandlerInterceptor {
 		resp.setContentType("text/html; charset=UTF-8");
 		
 		if (rq.isLogined()) {
-			rq.printHistoryBackJs(Ut.jsHistoryBack("F-B", "로그아웃을 먼저 해주세요."));
+			rq.printJs(Ut.jsHistoryBack("F-B", "로그아웃을 먼저 해주세요."));
 			return false;
 		}
 		

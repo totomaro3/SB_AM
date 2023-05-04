@@ -177,7 +177,7 @@
 				</form>
 			</c:if>
 			<c:if test="${!rq.isLogined() }">
-				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost" href="/usr/member/login">로그인</a> 후 이용해줘
+				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost" href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해줘
 			</c:if>
 		</div>
 	</div>
