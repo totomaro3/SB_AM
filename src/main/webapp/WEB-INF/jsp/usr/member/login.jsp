@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="MEMBER LOGIN" />
 <%@ include file="../common/head.jspf"%>
-
+<hr />
 
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
