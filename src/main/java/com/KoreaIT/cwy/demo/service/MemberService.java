@@ -55,4 +55,9 @@ public class MemberService {
 		
 		return ResultData.from("S-1", "회원이 삭제되었습니다.","id", id);
 	}
+
+	public boolean getMemberByLoginId(String loginId) {
+		// TODO Auto-generated method stub
+		return memberRepository.isDupLoginId(loginId);
+	}
 }

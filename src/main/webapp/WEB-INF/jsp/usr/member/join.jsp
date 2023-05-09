@@ -15,6 +15,11 @@
 			alert('아이디를 입력해주세요');
 			return;
 		}
+		if (form.loginId.value != validLoginId) {
+			alert('사용할 수 없는 아이디야');
+			form.loginId.focus();
+			return;
+		}
 		form.loginPw.value = form.loginPw.value.trim();
 		if (form.loginPw.value == 0) {
 			alert('비밀번호를 입력해주세요');
@@ -53,11 +58,49 @@
 		submitJoinFormDone = true;
 		form.submit();
 	}
+
+	
+	function checkLoginIdDup(el) {
+		const form = $(el).closest('form').get(0);
+		
+		if (form.loginId.value.length == 0) {
+			validLoginId = '';
+		}
+
+		var loginId = form.loginId.value;
+		var action = './getLoginIdDup';
+
+		$.get(action, {
+			isAjax : 'Y',
+			loginId : loginId,
+		}, function(data) {
+			$('.checkDup-msg').text(data.msg);
+			validLoginId = data.data1;
+
+		}, 'json');
+	}
+	
+	function checkLoginPwConfirm(el) {
+		const form = $(el).closest('form').get(0);
+
+		var loginPw = form.loginPw.value;
+		var loginPwConfirm = form.loginPwConfirm.value;
+		var action = './getLoginPwConfirm';
+
+		$.get(action, {
+			isAjax : 'Y',
+			loginPw : loginPw,
+			loginPwConfirm : loginPwConfirm,
+		}, function(data) {
+			$('.checkConfirm-msg').text(data.msg);
+
+		}, 'json');
+	}
 </script>
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
-		<form class="table-box-type-1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
+		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
 			<table class="table table-zebra w-full">
 				<colgroup>
@@ -68,19 +111,21 @@
 					<tr>
 						<th>아이디</th>
 						<td>
-							<input name="loginId" class="w-full input input-bordered  max-w-xs" placeholder="아이디를 입력해주세요" />
+							<input onblur="checkLoginIdDup(this);" name="loginId" class="w-full input input-bordered  max-w-xs" placeholder="아이디를 입력해주세요" />
+							<div class="checkDup-msg mt-2">&nbsp</div>
 						</td>
 					</tr>
 					<tr>
 						<th>비밀번호</th>
 						<td>
-							<input name="loginPw" class="w-full input input-bordered  max-w-xs" placeholder="비밀번호를 입력해주세요" />
+							<input onblur="checkLoginPwConfirm(this);" name="loginPw" class="w-full input input-bordered  max-w-xs" placeholder="비밀번호를 입력해주세요" />
 						</td>
 					</tr>
 					<tr>
 						<th>비밀번호 확인</th>
 						<td>
-							<input name="loginPwConfirm" class="w-full input input-bordered  max-w-xs" placeholder="비밀번호 확인을 입력해주세요" />
+							<input onblur="checkLoginPwConfirm(this);" name="loginPwConfirm" class="w-full input input-bordered  max-w-xs" placeholder="비밀번호 확인을 입력해주세요" />
+							<div class="checkConfirm-msg mt-2">&nbsp</div>
 						</td>
 					</tr>
 					<tr>

@@ -28,6 +28,40 @@ public class UsrMemberController {
 		return "usr/member/join";
 	}
 	
+	@RequestMapping("/usr/member/getLoginIdDup")
+	@ResponseBody
+	public ResultData getLoginIdDup(String loginId) {
+		
+		if(Ut.empty(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해주세요.");
+		}
+		
+		if(memberService.getMemberByLoginId(loginId)) {
+			return ResultData.from("F-2", "중복된 아이디 입니다.");
+		}
+		
+		return ResultData.from("S-1", "사용가능한 아이디 입니다.");
+	}
+	
+	@RequestMapping("/usr/member/getLoginPwConfirm")
+	@ResponseBody
+	public ResultData getLoginPwConfirm(String loginPw, String loginPwConfirm) {
+		
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-1", "비밀번호를 입력해주세요");
+		}
+		
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-2", "비밀번호확인을 입력해주세요");
+		}
+		
+		if(!loginPw.equals(loginPwConfirm)) {
+			return ResultData.from("F-3", "비밀번호가 일치하지 않습니다.");
+		}
+		
+		return ResultData.from("S-1", "비밀번호가 일치합니다.");
+	}
+	
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
