@@ -48,6 +48,20 @@ public interface MemberRepository {
 			WHERE name = #{name} AND email = #{email}
 			""")
 	public boolean isDupNameAndEmail(String name, String email);
+	
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE name = #{name} AND email = #{email}
+			""")
+	public Member getMemberByNameAndEmail(String name, String email);
+	
+	@Select("""
+			SELECT loginPw
+			FROM `member`
+			WHERE name = #{name} AND email = #{email}
+			""")
+	public String getLoginPwByNameAndEmail(String name, String email);
 
 	@Select("""
 			SELECT *
@@ -55,7 +69,7 @@ public interface MemberRepository {
 			WHERE loginId = #{loginId}
 			""")
 	public Member getMemberByLoginId(String loginId);
-
+	
 	@Update("""
 			<script>
 			UPDATE member
@@ -86,4 +100,6 @@ public interface MemberRepository {
 			</script>
 			""")
 	public void doDeleteMember(int id);
+
+	
 }

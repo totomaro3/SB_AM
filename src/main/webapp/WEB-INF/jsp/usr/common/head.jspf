@@ -12,7 +12,8 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
 
 <!-- Daisy UI -->
-<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css"
+	rel="stylesheet" type="text/css" />
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- 폰트어썸 불러오기 -->
@@ -26,7 +27,7 @@
 <!-- 로대쉬 불러오기 -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-	
+
 <link rel="stylesheet" href="/resource/common.css" />
 <link rel="shortcut icon" href="/resource/favicon.ico" />
 <script src="/resource/common.js" defer="defer"></script>
@@ -37,39 +38,40 @@
 			<div class="container mx-auto px-3">
 				<div class="flex mx-auto text-3xl ">
 					<a class="logo" href="/">ToToWeb</a>
-				<div class="flex-grow"></div>
-				<ul class="flex">
-					<li><a href="/usr/article/list?boardId=0&page=1">LIST</a>
-						<ul>
-							<li><a href= "/usr/article/list?boardId=1&page=1">NOTICE</a></li>
-							<li><a href= "/usr/article/list?boardId=2&page=1">FREE</a></li>
-							<li><a href= "/usr/article/list?boardId=3&page=1">QNA</a></li>
-						</ul>
-					</li>
-					<li><a href="/usr/article/write">WRITE</a></li>
-					<c:if test="${!rq.isLogined() }">
-						<li><a href="/usr/member/join">JOIN</a></li>
-						<li><a href="${rq.getLoginUri() }">LOGIN</a></li>
-					</c:if>
-					<c:if test="${rq.isLogined() }">
-						<li><a href="/usr/member/myPage">MYPAGE</a></li>
-						<li><a href="${rq.getLogoutUri() }">LOGOUT</a></li>
-					</c:if>
-			</ul>
-		</div>
-		<div class="h-10 flex mx-auto text-3xl ">
-				<c:choose>
-					<c:when test="${rq.isLogined()}">
-					<div>로그인 중입니다. (${rq.loginedMemberNickname })</div>
-					</c:when>
-					<c:otherwise>
-					<div>로그인 중이 아닙니다.</div>
-					</c:otherwise>
-				</c:choose>
-		</div>
-		<div>${pageTitle }</div>
-	</div>
-	</section>
+					<div class="flex-grow"></div>
+					<ul class="flex">
+						<li><a href="/usr/article/list?boardId=0&page=1">LIST</a>
+							<ul>
+								<li><a href="/usr/article/list?boardId=1&page=1">NOTICE</a></li>
+								<li><a href="/usr/article/list?boardId=2&page=1">FREE</a></li>
+								<li><a href="/usr/article/list?boardId=3&page=1">QNA</a></li>
+							</ul></li>
+						<li><a href="/usr/article/write">WRITE</a></li>
+						<c:if test="${!rq.isLogined() }">
+							<li><a href="/usr/member/join">JOIN</a></li>
+							<li><a href="${rq.getLoginUri() }">LOGIN</a></li>
+						</c:if>
+						<c:if test="${rq.isLogined() }">
+							<li><a href="/usr/member/myPage">MYPAGE</a></li>
+							<li><a href="${rq.getLogoutUri() }">LOGOUT</a></li>
+						</c:if>
+						<li><a class="h-full px-3 flex items-center"
+							href="/usr/home/APITest4">API</a></li>
+					</ul>
+				</div>
+				<div class="h-10 flex mx-auto text-3xl ">
+					<c:choose>
+						<c:when test="${rq.isLogined()}">
+							<div>로그인 중입니다. (${rq.loginedMemberNickname })</div>
+						</c:when>
+						<c:otherwise>
+							<div>로그인 중이 아닙니다.</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<div>${pageTitle }</div>
+			</div>
+		</section>
 	</header>
 	<main>
-	<hr>
+		<hr>

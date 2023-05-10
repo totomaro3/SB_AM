@@ -1,20 +1,24 @@
 package com.KoreaIT.cwy.demo.service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.KoreaIT.cwy.demo.vo.Member;
-import com.KoreaIT.cwy.demo.vo.ResultData;
-import com.KoreaIT.cwy.demo.controller.UsrMemberController;
 import com.KoreaIT.cwy.demo.repository.MemberRepository;
 import com.KoreaIT.cwy.demo.util.Ut;
+import com.KoreaIT.cwy.demo.vo.Member;
+import com.KoreaIT.cwy.demo.vo.ResultData;
 
 @Service
 public class MemberService {
 	
 	@Autowired
 	private MemberRepository memberRepository;
-
+	
 	public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		if(memberRepository.isDupLoginId(loginId)) {
@@ -33,14 +37,18 @@ public class MemberService {
 		
 	}
 
-	public Member getMemberById(int id) {
+	public ResultData<Member> getMemberById(int id) {
 		
-		return memberRepository.getMemberById(id);
+		Member member = memberRepository.getMemberById(id);
+		
+		return ResultData.from("S-1", "멤버를 찾았습니다.","member", member);
 	}
 
-	public Member login(String loginId, String loginPw) {
-
-		return memberRepository.getMemberByLoginId(loginId);
+	public ResultData<Member> login(String loginId, String loginPw) {
+		
+		Member member = memberRepository.getMemberByLoginId(loginId);
+		
+		return ResultData.from("S-1", Ut.f("%s님 환영합니다.", member.getNickname()),"member", member);
 	}
 
 	public ResultData<String> doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum, String email) {
@@ -56,8 +64,30 @@ public class MemberService {
 		return ResultData.from("S-1", "회원이 삭제되었습니다.","id", id);
 	}
 
-	public boolean getMemberByLoginId(String loginId) {
-		// TODO Auto-generated method stub
-		return memberRepository.isDupLoginId(loginId);
+	public ResultData<Boolean> getMemberByLoginId(String loginId) {
+		
+		if(memberRepository.isDupLoginId(loginId)) {
+			return ResultData.from("F-2", "중복된 아이디 입니다.","isDupLoginId", true);
+		}
+		else {
+			return ResultData.from("S-1", "사용 가능한 아이디 입니다.","isDupLoginId", false);
+		}
+	}
+
+	public ResultData<String> getMemberByNameAndEmail(String name, String email) {
+		
+		Member member = memberRepository.getMemberByNameAndEmail(name, email);
+		
+		if(member == null) {
+			return ResultData.from("F-1", "찾은 아이디가 없습니다.");
+		}
+		
+		return ResultData.from("S-1", "찾은 아이디는 "+member.getLoginId()+"입니다", "loginId", member.getLoginId());
+	}
+
+	public ResultData<String> getLoginPwByNameAndEmail(String name, String email) {
+		String loginPw = memberRepository.getLoginPwByNameAndEmail(name, email);
+		
+		return ResultData.from("S-1", "찾은 비밀번호는 "+loginPw+"입니다", "loginPw", loginPw);
 	}
 }

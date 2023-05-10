@@ -9,4 +9,19 @@
 	</div>
 </section>
 
+<div class="popup text-2xl inline">Popup Test</div>
+<div class="layer-bg"></div>
+<div class="layer">
+	<div class="flex justify-between">
+		<div class="text-2xl">POPUP</div>
+		<div class="close-btn">
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi repudiandae expedita vero nihil architecto
+		nostrum blanditiis unde beatae! Id iusto ducimus minima. Libero quam voluptas velit eius consequatur delectus
+		quisquam.</div>
+</div>
+
 <%@ include file="../common/foot.jspf"%>

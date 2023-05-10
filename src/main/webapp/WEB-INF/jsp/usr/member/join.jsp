@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="JOIN" />
+<c:set var="pageTitle" value="MEMBER JOIN" />
 <%@ include file="../common/head.jspf"%>
 
 <script>
@@ -16,7 +16,7 @@
 			return;
 		}
 		if (form.loginId.value != validLoginId) {
-			alert('사용할 수 없는 아이디야');
+			alert('사용할 수 없는 아이디입니다');
 			form.loginId.focus();
 			return;
 		}
@@ -75,7 +75,13 @@
 			loginId : loginId,
 		}, function(data) {
 			$('.checkDup-msg').text(data.msg);
-			validLoginId = data.data1;
+			if (data.success) {
+				$('.checkDup-msg').removeClass('text-red-500');
+				validLoginId = data.data1;
+			} else {
+				$('.checkDup-msg').addClass('text-red-500');
+				validLoginId = '';
+			}
 
 		}, 'json');
 	}
@@ -93,6 +99,11 @@
 			loginPwConfirm : loginPwConfirm,
 		}, function(data) {
 			$('.checkConfirm-msg').text(data.msg);
+			if (data.success) {
+				$('.checkConfirm-msg').removeClass('text-red-500')
+			} else {
+				$('.checkConfirm-msg').addClass('text-red-500');
+			}
 
 		}, 'json');
 	}
@@ -159,7 +170,6 @@
 						</td>
 					</tr>
 				</tbody>
-
 			</table>
 		</form>
 	</div>
