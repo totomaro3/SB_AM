@@ -34,13 +34,13 @@ public class UsrMemberController {
 			return ResultData.from("F-1", "아이디를 입력해주세요.","loginId",loginId);
 		}
 		
-		ResultData<Boolean> getMemberByLoginIdRd = memberService.getMemberByLoginId(loginId);
+		ResultData<Boolean> isDupLoginIdRd = memberService.isDupLoginId(loginId);
 		
-		if(getMemberByLoginIdRd.getData1()) {
-			return ResultData.from("F-2", getMemberByLoginIdRd.getMsg(),"loginId",loginId);
+		if(isDupLoginIdRd.getData1()) {
+			return ResultData.from("F-2", isDupLoginIdRd.getMsg(),"loginId",loginId);
 		}
 		
-		return ResultData.from("S-1", getMemberByLoginIdRd.getMsg(),"loginId",loginId);
+		return ResultData.from("S-1", isDupLoginIdRd.getMsg(),"loginId",loginId);
 	}
 	
 	@RequestMapping("/usr/member/getLoginPwConfirm")
@@ -162,7 +162,7 @@ public class UsrMemberController {
 
 		ResultData<Member> loginRd = memberService.login(loginId, loginPw);
 
-		if (!loginRd.getData1().getLoginPw().equals(loginPw)) {
+		if (!rq.getLoginedMember().getLoginPw().equals(Ut.sha256(loginPw))) {
 			return rq.jsHistoryBack("F-1","비밀번호가 일치하지 않습니다.");
 		}
 		
@@ -224,14 +224,26 @@ public class UsrMemberController {
 		
 		return "usr/member/findLoginPw";
 	}
-	
+
 	@RequestMapping("/usr/member/doFindLoginPw")
 	@ResponseBody
-	public String doFindLoginPw(String name, String email) {
+	public String doFindLoginPw(@RequestParam(defaultValue = "/") String afterFindLoginPwUri, String loginId,
+			String email) {
 
-		ResultData<String> getLoginPwByNameAndEmail = memberService.getLoginPwByNameAndEmail(name, email);
-				
-		return rq.jsReplace(getLoginPwByNameAndEmail.getResultCode(), getLoginPwByNameAndEmail.getMsg(), "../member/login");
+		ResultData<Member> getMemberByLoginIdRd = memberService.getMemberByLoginId(loginId);
+
+		if (getMemberByLoginIdRd.getData1() == null) {
+			return Ut.jsHistoryBack("F-1", "너는 없는 사람이야");
+		}
+
+		if (getMemberByLoginIdRd.getData1().getEmail().equals(email) == false) {
+			return Ut.jsHistoryBack("F-2", "일치하는 이메일이 없는데?");
+		}
+
+		ResultData notifyTempLoginPwByEmailRd = memberService.notifyTempLoginPwByEmail(getMemberByLoginIdRd.getData1());
+
+		return Ut.jsReplace(notifyTempLoginPwByEmailRd.getResultCode(), notifyTempLoginPwByEmailRd.getMsg(),
+				afterFindLoginPwUri);
 	}
 }
 

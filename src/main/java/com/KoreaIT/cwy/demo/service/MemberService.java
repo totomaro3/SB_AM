@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.KoreaIT.cwy.demo.repository.MemberRepository;
@@ -16,8 +17,15 @@ import com.KoreaIT.cwy.demo.vo.ResultData;
 @Service
 public class MemberService {
 	
+	@Value("${custom.siteMainUri}")
+	private String siteMainUri;
+	@Value("${custom.siteName}")
+	private String siteName;
+	
 	@Autowired
 	private MemberRepository memberRepository;
+	@Autowired
+	private MailService mailService;
 	
 	public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
@@ -64,7 +72,7 @@ public class MemberService {
 		return ResultData.from("S-1", "회원이 삭제되었습니다.","id", id);
 	}
 
-	public ResultData<Boolean> getMemberByLoginId(String loginId) {
+	public ResultData<Boolean> isDupLoginId(String loginId) {
 		
 		if(memberRepository.isDupLoginId(loginId)) {
 			return ResultData.from("F-2", "중복된 아이디 입니다.","isDupLoginId", true);
@@ -72,6 +80,13 @@ public class MemberService {
 		else {
 			return ResultData.from("S-1", "사용 가능한 아이디 입니다.","isDupLoginId", false);
 		}
+	}
+	
+	public ResultData<Member> getMemberByLoginId(String loginId) {
+		
+		Member member = memberRepository.getMemberByLoginId(loginId);
+		
+		return ResultData.from("S-1", "멤버를 찾았습니다.","Member", member);
 	}
 
 	public ResultData<String> getMemberByNameAndEmail(String name, String email) {
@@ -84,10 +99,25 @@ public class MemberService {
 		
 		return ResultData.from("S-1", "찾은 아이디는 "+member.getLoginId()+"입니다", "loginId", member.getLoginId());
 	}
+	
+	public ResultData notifyTempLoginPwByEmail(Member actor) {
+		String title = "[" + siteName + "] 임시 패스워드 발송";
+		String tempPassword = Ut.getTempPassword(6);
+		String body = "<h1>임시 패스워드 : " + tempPassword + "</h1>";
+		body += "<a href=\"" + siteMainUri + "/usr/member/login\" target=\"_blank\">로그인 하러가기</a>";
 
-	public ResultData<String> getLoginPwByNameAndEmail(String name, String email) {
-		String loginPw = memberRepository.getLoginPwByNameAndEmail(name, email);
-		
-		return ResultData.from("S-1", "찾은 비밀번호는 "+loginPw+"입니다", "loginPw", loginPw);
+		ResultData sendResultData = mailService.send(actor.getEmail(), title, body);
+
+		if (sendResultData.isFail()) {
+			return sendResultData;
+		}
+
+		setTempPassword(actor, tempPassword);
+
+		return ResultData.from("S-1", "계정의 이메일주소로 임시 패스워드가 발송되었습니다.");
+	}
+
+	private void setTempPassword(Member actor, String tempPassword) {
+		memberRepository.doModifyMember(actor.getId(), Ut.sha256(tempPassword), null, null, null, null);
 	}
 }

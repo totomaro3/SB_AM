@@ -36,7 +36,14 @@ public interface MemberRepository {
 			WHERE loginId = #{loginId}
 			""")
 	public boolean isDupLoginId(String loginId);
-
+	
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE loginId = #{loginId}
+			""")
+	public Member getMemberByLoginId(String loginId);
+	
 	@Select("""
 			SELECT LAST_INSERT_ID()
 			""")
@@ -62,26 +69,27 @@ public interface MemberRepository {
 			WHERE name = #{name} AND email = #{email}
 			""")
 	public String getLoginPwByNameAndEmail(String name, String email);
-
-	@Select("""
-			SELECT *
-			FROM `member`
-			WHERE loginId = #{loginId}
-			""")
-	public Member getMemberByLoginId(String loginId);
 	
 	@Update("""
 			<script>
-			UPDATE member
+			UPDATE `member`
 			<set>
-			<if test="loginPw != ''">
-				loginPw = #{loginPw},
-			</if>
-			name = '${name}',
-			nickname = '${nickname}',
-			cellphoneNum = '${cellphoneNum}',
-			email = '${email}',
-			updateDate= NOW()
+				<if test="loginPw != null">
+					loginPw = #{loginPw},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="nickname != null">
+					nickname = #{nickname},
+				</if>
+				<if test="cellphoneNum != null">
+					cellphoneNum = #{cellphoneNum},
+				</if>
+				<if test="email != null">
+					email = #{email},
+				</if>
+				updateDate= NOW()
 			</set>
 			WHERE id = #{id}
 			</script>

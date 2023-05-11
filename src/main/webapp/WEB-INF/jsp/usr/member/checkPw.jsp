@@ -22,8 +22,8 @@
 						<tr>
 							<th>비밀번호</th>
 							<td>
-								<input class="input input-bordered w-full max-w-xs" autocomplete="off" type="text" placeholder="비밀번호를 입력해주세요"
-									name="loginPw" />
+								<input required="required" class="input input-bordered w-full max-w-xs" autocomplete="off" type="text"
+									placeholder="비밀번호를 입력해주세요" name="loginPw" />
 							</td>
 						</tr>
 						<tr>
